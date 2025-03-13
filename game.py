@@ -77,7 +77,9 @@ def reset():
     global current_position
     global sequence_length
 
-    # randomize sequence_length from 2 to 4 AI!
+    # Randomize sequence length from 2 to 4
+    sequence_length = random.randint(2, 4)
+    
     # Generate a new sequence of notes to guess
     target_sequence, target_sequence_names = generate_challenge(sequence_length, note_options)
     current_position = 0
