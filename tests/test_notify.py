@@ -1,7 +1,11 @@
 import unittest
 import time
+import sys
+import os
 
-# running this file with python says no module named midi_ports. the module is located in the parent folder. fix this AI!
+# Add the parent directory to the Python path so we can import modules from there
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from midi_ports import open_midi_ports, close_midi_ports
 from notify import play_success_sound
 
