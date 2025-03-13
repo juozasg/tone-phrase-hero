@@ -1,7 +1,8 @@
-from midi_utils import note_on, note_off
+from midi_utils import note_on, note_off, play_note
 from music import note_val
 import threading
 import time
+import random
 
 def handle_midi_message(message, output_port):
     if message.type == 'note_on':
@@ -25,15 +26,30 @@ def handle_midi_message(message, output_port):
 def game_loop(input_port, output_port):
     print("Game loop started. Press keys on your MIDI device...")
     print("Press Ctrl+C to exit")
-
+    
+    note_options = ['C4', 'D4']
+    
     try:
         # Set up callback for incoming MIDI messages
-        for message in input_port:
-            played_note = handle_midi_message(message, output_port)
-            if played_note:
-                if played_note == note_val('C4'):
-                    print("\nWIN")
-                else:
-                    print("\nLOSE")
+        while True:
+            # Choose a random note to play
+            target_note_name = random.choice(note_options)
+            target_note = note_val(target_note_name)
+            
+            print(f"\nGuess this note:")
+            # Play the note for the user to guess
+            play_note(output_port, target_note, 64, 1.0)
+            
+            # Wait for user input
+            for message in input_port:
+                played_note = handle_midi_message(message, output_port)
+                if played_note:
+                    if played_note == target_note:
+                        print("\nCORRECT! You guessed the right note.")
+                    else:
+                        print(f"\nINCORRECT. The note was {target_note_name}.")
+                    
+                    # Break out of the inner loop to play a new note
+                    break
     except KeyboardInterrupt:
         print("\nGame loop stopped by user")
