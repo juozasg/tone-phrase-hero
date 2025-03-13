@@ -31,22 +31,37 @@ def game_loop(input_port, output_port):
     note_options = ['C4', 'D4']
     waiting_for_note_off = False
     last_played_note = None
+    
+    # For the sequence challenge
+    sequence_length = 4
+    current_position = 0
 
     try:
         # Set up callback for incoming MIDI messages
         while True:
-            if not waiting_for_note_off:
-                # Wait a random time between 1 and 2 seconds before playing the next note
-                wait_time = random.uniform(1.0, 2.0)
-                time.sleep(wait_time)
+            if not waiting_for_note_off and current_position == 0:
+                # Generate a new sequence of notes to guess
+                target_sequence = []
+                target_sequence_names = []
                 
-                # Choose a random note to play
-                target_note_name = random.choice(note_options)
-                target_note = note_val(target_note_name)
-
-                print(f"\nGuess this note:")
-                # Play the note for the user to guess
-                play_note(output_port, target_note, 64, 1.0)
+                print("\n=== NEW CHALLENGE ===")
+                print("Listen to this sequence of 4 notes:")
+                
+                # Generate and play the sequence
+                for i in range(sequence_length):
+                    # Choose a random note
+                    target_note_name = random.choice(note_options)
+                    target_note = note_val(target_note_name)
+                    
+                    target_sequence.append(target_note)
+                    target_sequence_names.append(target_note_name)
+                    
+                    # Play the note
+                    play_note(output_port, target_note, 64, 0.5)
+                    time.sleep(0.2)  # Brief pause between notes
+                
+                print("\nNow play back the sequence in order.")
+                print(f"Note 1 of {sequence_length}:")
 
             # Wait for user input
             for message in input_port:
@@ -56,17 +71,30 @@ def game_loop(input_port, output_port):
                         played_note = result['note']
                         last_played_note = played_note
                         
-                        if played_note == target_note:
-                            print("\n!!!CORRECT! You guessed the right note.")
+                        # Check if the played note matches the current position in the sequence
+                        if played_note == target_sequence[current_position]:
+                            print(f"Correct! That was {target_sequence_names[current_position]}")
+                            current_position += 1
+                            
+                            if current_position == sequence_length:
+                                print("\n🎉 CONGRATULATIONS! You played the entire sequence correctly! 🎉")
+                                current_position = 0  # Reset for a new sequence
+                            else:
+                                print(f"Note {current_position + 1} of {sequence_length}:")
                         else:
-                            print(f"\n!!!!INCORRECT. The note was {target_note_name}.")
+                            print(f"\n❌ INCORRECT. That should have been {target_sequence_names[current_position]}.")
+                            print("Let's try a new sequence.")
+                            current_position = 0  # Reset for a new sequence
                         
                         waiting_for_note_off = True
                         
                     elif result['type'] == 'note_off' and waiting_for_note_off and result['note'] == last_played_note:
                         waiting_for_note_off = False
                         last_played_note = None
-                        break  # Break out of the inner loop to play a new note
+                        
+                        # If we need to start a new sequence, break out of the inner loop
+                        if current_position == 0:
+                            break
                         
     except KeyboardInterrupt:
         print("\nGame loop stopped by user")
