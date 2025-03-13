@@ -1,4 +1,4 @@
-from midi_utils import note_on, note_off, play_note
+from midi_ports import note_on, note_off, play_note
 from music import note_val
 from messages import notify_correct_note, notify_sequence_success, notify_failure
 from main import get_output_port, get_input_port
@@ -30,11 +30,11 @@ def handle_midi_message(message):
 def generate_challenge(sequence_length, note_options):
     """
     Generate a new sequence challenge and play it for the user.
-    
+
     Args:
         sequence_length (int): The number of notes in the sequence
         note_options (list): List of possible note names to choose from
-        
+
     Returns:
         tuple: (target_sequence, target_sequence_names) - Lists of note values and names
     """
@@ -59,7 +59,7 @@ def generate_challenge(sequence_length, note_options):
 
     print("\nNow play back the sequence in order.")
     print(f"Note 1 of {sequence_length}:")
-    
+
     return target_sequence, target_sequence_names
 
 def game_loop():
