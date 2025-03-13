@@ -25,8 +25,8 @@ class TestNotify(unittest.TestCase):
     def test_play_failure_sound(self):
         # Test with default transpose value
         play_failure_sound()
-        time.sleep(1)
-        
+        time.sleep(0.4)
+
         # Test with transpose value of 1
         play_failure_sound(1)
         time.sleep(1)

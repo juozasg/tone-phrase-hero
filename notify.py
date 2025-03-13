@@ -8,7 +8,7 @@ def notify_correct_note(note_name):
 
 def notify_sequence_success():
     print("\n🎉 CONGRATULATIONS! You played the entire sequence correctly! 🎉")
-    
+
     # Play success sound in a separate thread
     sound_thread = threading.Thread(target=play_success_sound)
     sound_thread.daemon = True
@@ -47,23 +47,23 @@ def play_failure_sound(transpose = 0):
         note_off(note, 64)
 
 def play_success_sound():
-    """
-    Play a success sound as an arpeggio: C2 G2 C3 G3
-    """
-    success_notes = ['C2', 'G2', 'C3', 'G3']
-    velocity = 80  # Slightly louder for celebration
-    
+    success_notes = ['C2', 'G2', 'C3']
+    velocity = 50  # Slightly louder for celebration
+
     # Play each note in sequence with a slight delay
     for note_name in success_notes:
+        velocity += 15
         note = note_val(note_name)
         note_on(note, velocity)
-        time.sleep(0.15)  # Short delay between notes for arpeggio effect
-    
-    # Hold the final chord briefly
-    time.sleep(0.5)
-    
-    # Turn off all notes in reverse order for a nice effect
-    for note_name in reversed(success_notes):
-        note = note_val(note_name)
+        time.sleep(0.08)  # Short delay between notes for arpeggio effect
         note_off(note, velocity)
-        time.sleep(0.1)
+        time.sleep(0.03)
+
+    # # Hold the final chord briefly
+    # time.sleep(0.25)
+
+    # # Turn off all notes in reverse order for a nice effect
+    # for note_name in reversed(success_notes):
+    #     note = note_val(note_name)
+
+    #     time.sleep(0.1)

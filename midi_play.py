@@ -1,6 +1,7 @@
 import mido
 import time
-from main import get_output_port
+
+from midi_ports import get_output_port
 
 
 def note_on(note=60, velocity=64):

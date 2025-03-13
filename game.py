@@ -88,7 +88,7 @@ def game_loop():
     input_port = get_input_port()
 
     print("Game loop started. Press keys on your MIDI device...")
-    print("Press Ctrl+C to exit")
+    print("Press Ctrl+C or C1 to exit")
 
     try:
         reset()
@@ -99,9 +99,9 @@ def game_loop():
                 if result['type'] == 'note_off':
                     played_note = result['note']
 
-                    # Exit game if C2 was played
-                    if played_note == note_val('C2'):
-                        print("\nExiting game due to C2 key press.")
+                    # Exit game if C1 was played
+                    if played_note == note_val('C1'):
+                        print("\Exiting!")
                         return
 
                     # Check if the played note matches the current position in the sequence
@@ -126,4 +126,4 @@ def game_loop():
 
 
     except KeyboardInterrupt:
-        print("\nGame loop stopped by user")
+        print("\nExiting!")
