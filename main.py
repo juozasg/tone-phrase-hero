@@ -61,12 +61,14 @@ def play_note(output_port, note=60, velocity=64, duration=1.0):
         print(f"Error playing note: {e}")
 
 
+# open input_port named 'KeyLab mkII 61:KeyLab mkII 61 MIDI 32:0' AI!
+
 if __name__ == "__main__":
     # list_midi_ports()
 
     # Open the specified MIDI output port
-    port_name = 'Virtual Raw MIDI 6-0:VirMIDI 6-0 40:0'
-    output_port = open_midi_output_port(port_name)
+    out_port_name = 'Virtual Raw MIDI 6-0:VirMIDI 6-0 40:0'
+    output_port = open_midi_output_port(out_port_name)
 
     if output_port:
         # Play C4 note for 1 second
