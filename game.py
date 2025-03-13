@@ -17,5 +17,11 @@ def game_loop(input_port, output_port):
                     note_thread = threading.Thread(target=lambda: note_on(output_port, message.note, message.velocity))
                     note_thread.daemon = True  # Thread will exit when main program exits
                     note_thread.start()
+            elif message.type == 'note_off':
+                # When a note is released, send note off
+                print(f"Received note off: {message.note}")
+                note_thread = threading.Thread(target=lambda: note_off(output_port, message.note, message.velocity))
+                note_thread.daemon = True
+                note_thread.start()
     except KeyboardInterrupt:
         print("\nGame loop stopped by user")
