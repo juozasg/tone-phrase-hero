@@ -7,7 +7,7 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from midi_ports import open_midi_ports, close_midi_ports
-from notify import play_success_sound
+from notify import play_success_sound, play_failure_sound
 
 class TestNotify(unittest.TestCase):
     def setUp(self):
@@ -22,8 +22,14 @@ class TestNotify(unittest.TestCase):
         # Add a small delay to ensure sound completes
         time.sleep(1)
 
-
-    # test_play_failure_sound AI!
+    def test_play_failure_sound(self):
+        # Test with default transpose value
+        play_failure_sound()
+        time.sleep(1)
+        
+        # Test with transpose value of 1
+        play_failure_sound(1)
+        time.sleep(1)
 
 if __name__ == "__main__":
     unittest.main()
