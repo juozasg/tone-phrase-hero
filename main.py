@@ -1,12 +1,15 @@
 from midi_utils import open_midi_input_port, open_midi_output_port
 from game import game_loop
 
-# Global variable to store the current output port
-global _current_output_port  # This line needs to be moved
+# Global variables to store the current ports
 _current_output_port = None
+_current_input_port = None
 
 def get_current_output_port():
     return _current_output_port
+
+def get_current_input_port():
+    return _current_input_port
 
 if __name__ == "__main__":
     # list_midi_ports()
@@ -21,6 +24,9 @@ if __name__ == "__main__":
     # Open the specified MIDI input port
     in_port_name = 'KeyLab mkII 61:KeyLab mkII 61 MIDI 32:0'
     input_port = open_midi_input_port(in_port_name)
+
+    # Store the input port in the global variable
+    _current_input_port = input_port
 
     # Run the game loop with the opened ports
     game_loop(input_port, output_port)
