@@ -1,6 +1,7 @@
 from music import note_val
 import threading
 import time
+from midi_play import note_on, note_off
 
 def notify_correct_note(note_name):
     print(f"Correct! That was {note_name}")

@@ -1,4 +1,4 @@
-from midi_ports import note_on, note_off, play_note
+from midi_play import note_on, note_off, play_note
 from music import note_val
 from messages import notify_correct_note, notify_sequence_success, notify_failure
 from main import get_output_port, get_input_port
