@@ -31,9 +31,9 @@ def game_loop(input_port, output_port):
     note_options = ['C4', 'D4']
     waiting_for_note_off = False
     last_played_note = None
-    
+
     # For the sequence challenge
-    sequence_length = 4
+    sequence_length = 2
     current_position = 0
 
     try:
@@ -43,23 +43,23 @@ def game_loop(input_port, output_port):
                 # Generate a new sequence of notes to guess
                 target_sequence = []
                 target_sequence_names = []
-                
+
                 print("\n=== NEW CHALLENGE ===")
-                print("Listen to this sequence of 4 notes:")
-                
+                print(f'Listen to this sequence of {sequence_length} notes:')
+
                 # Generate and play the sequence
                 for i in range(sequence_length):
                     # Choose a random note
                     target_note_name = random.choice(note_options)
                     target_note = note_val(target_note_name)
-                    
+
                     target_sequence.append(target_note)
                     target_sequence_names.append(target_note_name)
-                    
+
                     # Play the note
-                    play_note(output_port, target_note, 64, 0.5)
-                    time.sleep(0.2)  # Brief pause between notes
-                
+                    play_note(output_port, target_note, 64, 0.7)
+                    time.sleep(0.5)  # Brief pause between notes
+
                 print("\nNow play back the sequence in order.")
                 print(f"Note 1 of {sequence_length}:")
 
@@ -70,12 +70,12 @@ def game_loop(input_port, output_port):
                     if result['type'] == 'note_on':
                         played_note = result['note']
                         last_played_note = played_note
-                        
+
                         # Check if the played note matches the current position in the sequence
                         if played_note == target_sequence[current_position]:
                             print(f"Correct! That was {target_sequence_names[current_position]}")
                             current_position += 1
-                            
+
                             if current_position == sequence_length:
                                 print("\n🎉 CONGRATULATIONS! You played the entire sequence correctly! 🎉")
                                 current_position = 0  # Reset for a new sequence
@@ -85,16 +85,17 @@ def game_loop(input_port, output_port):
                             print(f"\n❌ INCORRECT. That should have been {target_sequence_names[current_position]}.")
                             print("Let's try a new sequence.")
                             current_position = 0  # Reset for a new sequence
-                        
+
                         waiting_for_note_off = True
-                        
+
                     elif result['type'] == 'note_off' and waiting_for_note_off and result['note'] == last_played_note:
                         waiting_for_note_off = False
                         last_played_note = None
-                        
+
                         # If we need to start a new sequence, break out of the inner loop
                         if current_position == 0:
+                            # wait for 1 second here AI!
                             break
-                        
+
     except KeyboardInterrupt:
         print("\nGame loop stopped by user")
