@@ -36,6 +36,10 @@ def game_loop(input_port, output_port):
         # Set up callback for incoming MIDI messages
         while True:
             if not waiting_for_note_off:
+                # Wait a random time between 1 and 2 seconds before playing the next note
+                wait_time = random.uniform(1.0, 2.0)
+                time.sleep(wait_time)
+                
                 # Choose a random note to play
                 target_note_name = random.choice(note_options)
                 target_note = note_val(target_note_name)
