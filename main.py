@@ -1,4 +1,4 @@
-from midi_utils import open_midi_input_port, open_midi_output_port
+from midi_ports import open_midi_input_port, open_midi_output_port
 from game import game_loop
 
 # Global variables to store the current ports
