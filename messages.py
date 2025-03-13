@@ -28,9 +28,8 @@ def notify_failure(correct_note_name):
             note = note_val(note_name)
             note_off(output_port, note, 64)
     
-    # We need to get the output port from the game context
-    # This will be passed when the function is called from game.py
-    from game import get_current_output_port
+    # We need to get the output port from the main module
+    from main import get_current_output_port
     output_port = get_current_output_port()
     
     if output_port:
