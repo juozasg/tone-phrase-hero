@@ -61,7 +61,24 @@ def play_note(output_port, note=60, velocity=64, duration=1.0):
         print(f"Error playing note: {e}")
 
 
-# open input_port named 'KeyLab mkII 61:KeyLab mkII 61 MIDI 32:0' AI!
+def open_midi_input_port(port_name):
+    """
+    Opens a MIDI input port with the specified name.
+    
+    Args:
+        port_name (str): The name of the MIDI input port to open
+        
+    Returns:
+        mido.ports.BaseInput: The opened MIDI input port or None if an error occurred
+    """
+    try:
+        input_port = mido.open_input(port_name)
+        print(f"Successfully opened MIDI input port: {port_name}")
+        return input_port
+    except Exception as e:
+        print(f"Error opening MIDI input port: {e}")
+        return None
+
 
 if __name__ == "__main__":
     # list_midi_ports()
@@ -70,10 +87,19 @@ if __name__ == "__main__":
     out_port_name = 'Virtual Raw MIDI 6-0:VirMIDI 6-0 40:0'
     output_port = open_midi_output_port(out_port_name)
 
+    # Open the specified MIDI input port
+    in_port_name = 'KeyLab mkII 61:KeyLab mkII 61 MIDI 32:0'
+    input_port = open_midi_input_port(in_port_name)
+
     if output_port:
         # Play C4 note for 1 second
         play_note(output_port, note=60, velocity=64, duration=1.0)
 
         # Close the port
         output_port.close()
-        print("MIDI port closed")
+        print("MIDI output port closed")
+    
+    if input_port:
+        # Close the input port
+        input_port.close()
+        print("MIDI input port closed")
