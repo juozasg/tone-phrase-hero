@@ -29,35 +29,8 @@ def list_midi_ports():
     return input_ports, output_ports
 
 
-def create_virtual_midi_device(port_name):
-    """
-    Creates a virtual MIDI output port using rtmidi.
 
-    Args:
-        port_name (str): The name to give to the virtual MIDI port
+if __name__ == "__main__":
+    list_midi_ports()
 
-    Returns:
-        rtmidi.MidiOut: The created virtual MIDI output port object
-    """
-    try:
-        # midi_out = rtmidi.MidiOut()
-        rtmidi.MidiOut().open_virtual_port("virt midi out")
-        rtmidi.MidiIn().open_virtual_port("virt midi in")
-        # print(f"Created virtual MIDI output port: {port_name}")
-        # return midi_out
-    except Exception as e:
-        print(f"Error creating virtual MIDI port: {e}")
-        return None
-
-
-# if __name__ == "__main__":
-    #
-
-create_virtual_midi_device("tone-phrase-hero")
-
-list_midi_ports()
-
-# Keep the program running for 30 seconds to maintain the virtual MIDI ports
-print("Keeping virtual MIDI ports open for 30 seconds...")
-time.sleep(30)
-print("Done.")
+# open the midi output port named 'Virtual Raw MIDI 6-0:VirMIDI 6-0 40:0' and play note C4 for 1 second on the port AI!
