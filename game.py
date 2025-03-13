@@ -24,6 +24,16 @@ def handle_midi_message(message, output_port):
 
     return False
 
+def show_success_message(note_name):
+    print(f"Correct! That was {note_name}")
+
+def show_sequence_complete_message():
+    print("\n🎉 CONGRATULATIONS! You played the entire sequence correctly! 🎉")
+
+def show_failure_message(correct_note_name):
+    print(f"\n❌ INCORRECT. That should have been {correct_note_name}.")
+    print("Let's try a new sequence.")
+
 def game_loop(input_port, output_port):
     print("Game loop started. Press keys on your MIDI device...")
     print("Press Ctrl+C to exit")
@@ -73,17 +83,16 @@ def game_loop(input_port, output_port):
 
                         # Check if the played note matches the current position in the sequence
                         if played_note == target_sequence[current_position]:
-                            print(f"Correct! That was {target_sequence_names[current_position]}")
+                            show_success_message(target_sequence_names[current_position])
                             current_position += 1
 
                             if current_position == sequence_length:
-                                print("\n🎉 CONGRATULATIONS! You played the entire sequence correctly! 🎉")
+                                show_sequence_complete_message()
                                 current_position = 0  # Reset for a new sequence
                             else:
                                 print(f"Note {current_position + 1} of {sequence_length}:")
                         else:
-                            print(f"\n❌ INCORRECT. That should have been {target_sequence_names[current_position]}.")
-                            print("Let's try a new sequence.")
+                            show_failure_message(target_sequence_names[current_position])
                             current_position = 0  # Reset for a new sequence
 
                         waiting_for_note_off = True
