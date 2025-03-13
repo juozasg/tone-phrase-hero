@@ -62,60 +62,65 @@ def generate_challenge(sequence_length, note_options):
 
     return target_sequence, target_sequence_names
 
+
+# For the sequence challenge
+sequence_length = 3
+current_position = 0
+target_sequence = []
+target_sequence_names = []
+note_options = ['C4', 'D4']
+
+
+def reset():
+    global target_sequence
+    global target_sequence_names
+    global current_position
+    # Generate a new sequence of notes to guess
+    target_sequence, target_sequence_names = generate_challenge(sequence_length, note_options)
+    current_position = 0
+
+
 def game_loop():
+    global target_sequence
+    global target_sequence_names
+    global current_position
+
     input_port = get_input_port()
 
     print("Game loop started. Press keys on your MIDI device...")
     print("Press Ctrl+C to exit")
 
-    note_options = ['C4', 'D4']
-    waiting_for_note_off = False
-    last_played_note = None
-
-    # For the sequence challenge
-    sequence_length = 2
-    current_position = 0
-
     try:
-        # Set up callback for incoming MIDI messages
-        while True:
-            if not waiting_for_note_off and current_position == 0:
-                # Generate a new sequence of notes to guess
-                target_sequence, target_sequence_names = generate_challenge(sequence_length, note_options)
+        reset()
+        # Wait for user input
+        for message in input_port:
+            result = handle_midi_message(message)
+            if result:
+                if result['type'] == 'note_off':
+                    played_note = result['note']
 
-            # Wait for user input
-            for message in input_port:
-                result = handle_midi_message(message)
-                if result:
-                    # refactor this code block to check for correct or wrong player response always follow an 'note_off' result AI!
-                    if result['type'] == 'note_on':
-                        played_note = result['note']
-                        last_played_note = played_note
+                    # exit game if C2 was played AI!
 
-                        # Check if the played note matches the current position in the sequence
-                        if played_note == target_sequence[current_position]:
-                            notify_correct_note(target_sequence_names[current_position])
-                            current_position += 1
+                    # Check if the played note matches the current position in the sequence
+                    if played_note == target_sequence[current_position]:
+                        notify_correct_note(target_sequence_names[current_position])
+                        current_position += 1
 
-                            if current_position == sequence_length:
-                                notify_sequence_success()
-                                current_position = 0  # Reset for a new sequence
-                            else:
-                                print(f"Note {current_position + 1} of {sequence_length}:")
+                        if current_position == sequence_length:
+                            time.sleep(0.4)
+                            notify_sequence_success()
+                            time.sleep(2)
+                            reset()
+
                         else:
-                            notify_failure(target_sequence_names[current_position])
-                            current_position = 0  # Reset for a new sequence
+                            print(f"Note {current_position + 1} of {sequence_length}:")
+                    else:
+                        time.sleep(0.4)
+                        notify_failure(target_sequence_names[current_position])
+                        time.sleep(1)
+                        reset()
 
-                        waiting_for_note_off = True
 
-                    elif result['type'] == 'note_off' and waiting_for_note_off and result['note'] == last_played_note:
-                        waiting_for_note_off = False
-                        last_played_note = None
-
-                        # If we need to start a new sequence, break out of the inner loop
-                        if current_position == 0:
-                            time.sleep(1)  # Wait for 1 second before starting a new sequence
-                            break
 
     except KeyboardInterrupt:
         print("\nGame loop stopped by user")
