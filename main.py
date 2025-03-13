@@ -2,6 +2,7 @@ from midi_utils import open_midi_input_port, open_midi_output_port
 from game import game_loop
 
 # Global variable to store the current output port
+global _current_output_port  # This line needs to be moved
 _current_output_port = None
 
 def get_current_output_port():
@@ -13,9 +14,8 @@ if __name__ == "__main__":
     # Open the specified MIDI output port
     out_port_name = 'Virtual Raw MIDI 6-0:VirMIDI 6-0 40:0'
     output_port = open_midi_output_port(out_port_name)
-    
+
     # Store the output port in the global variable
-    global _current_output_port  # This line needs to be moved
     _current_output_port = output_port
 
     # Open the specified MIDI input port
