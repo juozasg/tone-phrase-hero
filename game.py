@@ -9,6 +9,7 @@ def game_loop(input_port, output_port):
     try:
         # Set up callback for incoming MIDI messages
         for message in input_port:
+            # move this inner loop to separate function AI!
             if message.type == 'note_on':
                 # When a note is pressed, play it on the output port
                 if message.velocity > 0:
