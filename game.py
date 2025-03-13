@@ -1,31 +1,36 @@
 from midi_utils import note_on, note_off, play_note
 from music import note_val
 from messages import notify_correct_note, notify_sequence_success, notify_failure
+from main import get_output_port, get_input_port
 import threading
 import time
 import random
 
-def handle_midi_message(message, output_port):
+def handle_midi_message(message):
+    output_port = get_output_port()
     if message.type == 'note_on':
         # When a note is pressed, play it on the output port
         if message.velocity > 0:
             print(f"Received note: {message.note}, velocity: {message.velocity}")
             # Start a new thread to play the note asynchronously
-            note_thread = threading.Thread(target=lambda: note_on(output_port, message.note, message.velocity))
+            note_thread = threading.Thread(target=lambda: note_on(message.note, message.velocity))
             note_thread.daemon = True  # Thread will exit when main program exits
             note_thread.start()
             return {'type': 'note_on', 'note': message.note}
     elif message.type == 'note_off':
         # When a note is released, send note off
         print(f"Received note off: {message.note}")
-        note_thread = threading.Thread(target=lambda: note_off(output_port, message.note, message.velocity))
+        note_thread = threading.Thread(target=lambda: note_off(message.note, message.velocity))
         note_thread.daemon = True
         note_thread.start()
         return {'type': 'note_off', 'note': message.note}
 
     return False
 
-def game_loop(input_port, output_port):
+def game_loop():
+    input_port = get_input_port()
+    output_port = get_output_port()
+    
     print("Game loop started. Press keys on your MIDI device...")
     print("Press Ctrl+C to exit")
 
@@ -58,7 +63,7 @@ def game_loop(input_port, output_port):
                     target_sequence_names.append(target_note_name)
 
                     # Play the note
-                    play_note(output_port, target_note, 64, 0.7)
+                    play_note(target_note, 64, 0.7)
                     time.sleep(0.5)  # Brief pause between notes
 
                 print("\nNow play back the sequence in order.")
@@ -66,7 +71,7 @@ def game_loop(input_port, output_port):
 
             # Wait for user input
             for message in input_port:
-                result = handle_midi_message(message, output_port)
+                result = handle_midi_message(message)
                 if result:
                     if result['type'] == 'note_on':
                         played_note = result['note']

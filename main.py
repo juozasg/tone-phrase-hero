@@ -29,7 +29,7 @@ if __name__ == "__main__":
     _current_input_port = input_port
 
     # Run the game loop with the opened ports
-    game_loop(input_port, output_port)
+    game_loop()
 
     if output_port:
         # Close the port

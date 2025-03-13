@@ -13,11 +13,11 @@ def notify_failure(correct_note_name):
     import threading
     import time
 
-    def play_failure_sound(output_port):
+    def play_failure_sound():
         failure_notes = ['C2', 'D2', 'E2', 'F2', 'G2']
         for note_name in failure_notes:
             note = note_val(note_name)
-            note_on(output_port, note, 64)
+            note_on(note, 64)
             time.sleep(0.1)  # Stagger by 100ms
 
         # Wait a bit before turning off all notes
@@ -26,16 +26,11 @@ def notify_failure(correct_note_name):
         # Turn off all notes
         for note_name in failure_notes:
             note = note_val(note_name)
-            note_off(output_port, note, 64)
+            note_off(note, 64)
 
-    # We need to get the output port from the main module
-    from main import get_output_port
-    output_port = get_output_port()
-
-    if output_port:
-        # Play the failure sound in a separate thread to not block the game
-        sound_thread = threading.Thread(target=lambda: play_failure_sound(output_port))
-        sound_thread.daemon = True
-        sound_thread.start()
+    # Play the failure sound in a separate thread to not block the game
+    sound_thread = threading.Thread(target=play_failure_sound)
+    sound_thread.daemon = True
+    sound_thread.start()
 
     print("Let's try a new sequence.")
