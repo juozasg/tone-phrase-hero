@@ -5,10 +5,10 @@ from game import game_loop
 _current_output_port = None
 _current_input_port = None
 
-def get_current_output_port():
+def get_output_port():
     return _current_output_port
 
-def get_current_input_port():
+def get_input_port():
     return _current_input_port
 
 if __name__ == "__main__":
