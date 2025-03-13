@@ -5,6 +5,12 @@ import threading
 import time
 import random
 
+# Global variable to store the current output port
+_current_output_port = None
+
+def get_current_output_port():
+    return _current_output_port
+
 def handle_midi_message(message, output_port):
     if message.type == 'note_on':
         # When a note is pressed, play it on the output port
@@ -26,6 +32,9 @@ def handle_midi_message(message, output_port):
     return False
 
 def game_loop(input_port, output_port):
+    global _current_output_port
+    _current_output_port = output_port
+    
     print("Game loop started. Press keys on your MIDI device...")
     print("Press Ctrl+C to exit")
 
