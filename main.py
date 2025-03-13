@@ -29,8 +29,30 @@ def list_midi_ports():
     return input_ports, output_ports
 
 
-
 if __name__ == "__main__":
     list_midi_ports()
-
-# open the midi output port named 'Virtual Raw MIDI 6-0:VirMIDI 6-0 40:0' and play note C4 for 1 second on the port AI!
+    
+    # Open the specified MIDI output port
+    try:
+        port_name = 'Virtual Raw MIDI 6-0:VirMIDI 6-0 40:0'
+        output_port = mido.open_output(port_name)
+        print(f"Successfully opened MIDI output port: {port_name}")
+        
+        # Play C4 note (MIDI note number 60)
+        note_on = mido.Message('note_on', note=60, velocity=64)
+        output_port.send(note_on)
+        print("Playing C4 note...")
+        
+        # Hold for 1 second
+        time.sleep(1)
+        
+        # Release the note
+        note_off = mido.Message('note_off', note=60, velocity=64)
+        output_port.send(note_off)
+        print("Note released")
+        
+        # Close the port
+        output_port.close()
+        print("MIDI port closed")
+    except Exception as e:
+        print(f"Error: {e}")
