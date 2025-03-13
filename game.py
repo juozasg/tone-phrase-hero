@@ -27,6 +27,41 @@ def handle_midi_message(message):
 
     return False
 
+def generate_challenge(sequence_length, note_options):
+    """
+    Generate a new sequence challenge and play it for the user.
+    
+    Args:
+        sequence_length (int): The number of notes in the sequence
+        note_options (list): List of possible note names to choose from
+        
+    Returns:
+        tuple: (target_sequence, target_sequence_names) - Lists of note values and names
+    """
+    target_sequence = []
+    target_sequence_names = []
+
+    print("\n=== NEW CHALLENGE ===")
+    print(f'Listen to this sequence of {sequence_length} notes:')
+
+    # Generate and play the sequence
+    for i in range(sequence_length):
+        # Choose a random note
+        target_note_name = random.choice(note_options)
+        target_note = note_val(target_note_name)
+
+        target_sequence.append(target_note)
+        target_sequence_names.append(target_note_name)
+
+        # Play the note
+        play_note(target_note, 64, 0.7)
+        time.sleep(0.5)  # Brief pause between notes
+
+    print("\nNow play back the sequence in order.")
+    print(f"Note 1 of {sequence_length}:")
+    
+    return target_sequence, target_sequence_names
+
 def game_loop():
     input_port = get_input_port()
 
@@ -46,28 +81,7 @@ def game_loop():
         while True:
             if not waiting_for_note_off and current_position == 0:
                 # Generate a new sequence of notes to guess
-                target_sequence = []
-                target_sequence_names = []
-
-                # move challenge generation and play_note code to a new function AI!
-                print("\n=== NEW CHALLENGE ===")
-                print(f'Listen to this sequence of {sequence_length} notes:')
-
-                # Generate and play the sequence
-                for i in range(sequence_length):
-                    # Choose a random note
-                    target_note_name = random.choice(note_options)
-                    target_note = note_val(target_note_name)
-
-                    target_sequence.append(target_note)
-                    target_sequence_names.append(target_note_name)
-
-                    # Play the note
-                    play_note(target_note, 64, 0.7)
-                    time.sleep(0.5)  # Brief pause between notes
-
-                print("\nNow play back the sequence in order.")
-                print(f"Note 1 of {sequence_length}:")
+                target_sequence, target_sequence_names = generate_challenge(sequence_length, note_options)
 
             # Wait for user input
             for message in input_port:
