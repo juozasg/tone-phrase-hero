@@ -26,5 +26,9 @@ def list_midi_ports():
 
     return input_ports, output_ports
 
+
+# write a function create_virtual_midi_device which use the rtmidi library to create a virtual midi port AI!
+
+
 if __name__ == "__main__":
     list_midi_ports()
