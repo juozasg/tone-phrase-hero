@@ -99,7 +99,10 @@ def game_loop():
                 if result['type'] == 'note_off':
                     played_note = result['note']
 
-                    # exit game if C2 was played AI!
+                    # Exit game if C2 was played
+                    if played_note == note_val('C2'):
+                        print("\nExiting game due to C2 key press.")
+                        return
 
                     # Check if the played note matches the current position in the sequence
                     if played_note == target_sequence[current_position]:
