@@ -1,4 +1,5 @@
 import mido
+import rtmidi
 
 def list_midi_ports():
     """
@@ -27,7 +28,24 @@ def list_midi_ports():
     return input_ports, output_ports
 
 
-# write a function create_virtual_midi_device which use the rtmidi library to create a virtual midi port AI!
+def create_virtual_midi_device(port_name):
+    """
+    Creates a virtual MIDI output port using rtmidi.
+    
+    Args:
+        port_name (str): The name to give to the virtual MIDI port
+        
+    Returns:
+        rtmidi.MidiOut: The created virtual MIDI output port object
+    """
+    try:
+        midi_out = rtmidi.MidiOut()
+        midi_out.open_virtual_port(port_name)
+        print(f"Created virtual MIDI output port: {port_name}")
+        return midi_out
+    except Exception as e:
+        print(f"Error creating virtual MIDI port: {e}")
+        return None
 
 
 if __name__ == "__main__":
