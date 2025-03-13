@@ -5,6 +5,7 @@ import threading
 import time
 import random
 
+# move current_output_port feature to main.py AI!
 # Global variable to store the current output port
 _current_output_port = None
 
@@ -34,7 +35,7 @@ def handle_midi_message(message, output_port):
 def game_loop(input_port, output_port):
     global _current_output_port
     _current_output_port = output_port
-    
+
     print("Game loop started. Press keys on your MIDI device...")
     print("Press Ctrl+C to exit")
 
