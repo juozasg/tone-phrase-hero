@@ -1,11 +1,6 @@
 from midi_utils import play_note
 
 def game_loop(input_port, output_port):
-    # from here assume that input_port and output_port are always valid AI!
-    if not input_port or not output_port:
-        print("Cannot run game loop: Missing input or output port")
-        return
-
     print("Game loop started. Press keys on your MIDI device...")
     print("Press Ctrl+C to exit")
 
