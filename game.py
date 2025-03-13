@@ -94,7 +94,7 @@ def game_loop(input_port, output_port):
 
                         # If we need to start a new sequence, break out of the inner loop
                         if current_position == 0:
-                            # wait for 1 second here AI!
+                            time.sleep(1)  # Wait for 1 second before starting a new sequence
                             break
 
     except KeyboardInterrupt:
