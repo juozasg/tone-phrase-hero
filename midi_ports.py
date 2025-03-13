@@ -17,7 +17,6 @@ def open_midi_ports():
     global _current_input_port
     # Open the specified MIDI output port
     out_port_name = 'Virtual Raw MIDI 6-0:VirMIDI 6-0 40:0'
-    # why is global value not set AI?
     _current_output_port = open_midi_output_port(out_port_name)
 
     # Open the specified MIDI input port
@@ -75,4 +74,3 @@ def list_midi_ports():
         print("  None found")
 
     return input_ports, output_ports
-
