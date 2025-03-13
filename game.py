@@ -1,6 +1,6 @@
 from midi_utils import note_on, note_off, play_note
 from music import note_val
-from messages import show_success_message, show_sequence_complete_message, show_failure_message
+from messages import notify_correct_note, notify_sequence_success, notify_failure
 import threading
 import time
 import random
@@ -74,16 +74,16 @@ def game_loop(input_port, output_port):
 
                         # Check if the played note matches the current position in the sequence
                         if played_note == target_sequence[current_position]:
-                            show_success_message(target_sequence_names[current_position])
+                            notify_correct_note(target_sequence_names[current_position])
                             current_position += 1
 
                             if current_position == sequence_length:
-                                show_sequence_complete_message()
+                                notify_sequence_success()
                                 current_position = 0  # Reset for a new sequence
                             else:
                                 print(f"Note {current_position + 1} of {sequence_length}:")
                         else:
-                            show_failure_message(target_sequence_names[current_position])
+                            notify_failure(target_sequence_names[current_position])
                             current_position = 0  # Reset for a new sequence
 
                         waiting_for_note_off = True
