@@ -15,7 +15,7 @@ if __name__ == "__main__":
     output_port = open_midi_output_port(out_port_name)
     
     # Store the output port in the global variable
-    global _current_output_port
+    global _current_output_port  # This line needs to be moved
     _current_output_port = output_port
 
     # Open the specified MIDI input port
