@@ -1,5 +1,6 @@
 import mido
 import rtmidi
+import time
 
 def list_midi_ports():
     """
@@ -56,4 +57,7 @@ create_virtual_midi_device("tone-phrase-hero")
 
 list_midi_ports()
 
-# sleep 30 seconds AI!
+# Keep the program running for 30 seconds to maintain the virtual MIDI ports
+print("Keeping virtual MIDI ports open for 30 seconds...")
+time.sleep(30)
+print("Done.")
