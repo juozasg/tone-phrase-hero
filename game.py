@@ -1,7 +1,7 @@
 from midi_play import note_on, note_off, play_note
+from midi_ports import get_input_port, get_output_port
 from music import note_val
-from messages import notify_correct_note, notify_sequence_success, notify_failure
-from main import get_output_port, get_input_port
+from notify import notify_correct_note, notify_sequence_success, notify_failure
 import threading
 import time
 import random
@@ -87,6 +87,7 @@ def game_loop():
             for message in input_port:
                 result = handle_midi_message(message)
                 if result:
+                    # refactor this code block to check for correct or wrong player response always follow an 'note_off' result AI!
                     if result['type'] == 'note_on':
                         played_note = result['note']
                         last_played_note = played_note
