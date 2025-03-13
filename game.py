@@ -29,8 +29,7 @@ def handle_midi_message(message):
 
 def game_loop():
     input_port = get_input_port()
-    output_port = get_output_port()
-    
+
     print("Game loop started. Press keys on your MIDI device...")
     print("Press Ctrl+C to exit")
 
@@ -50,6 +49,7 @@ def game_loop():
                 target_sequence = []
                 target_sequence_names = []
 
+                # move challenge generation and play_note code to a new function AI!
                 print("\n=== NEW CHALLENGE ===")
                 print(f'Listen to this sequence of {sequence_length} notes:')
 
