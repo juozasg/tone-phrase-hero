@@ -1,5 +1,6 @@
 from midi_utils import note_on, note_off, play_note
 from music import note_val
+from messages import show_success_message, show_sequence_complete_message, show_failure_message
 import threading
 import time
 import random
@@ -23,16 +24,6 @@ def handle_midi_message(message, output_port):
         return {'type': 'note_off', 'note': message.note}
 
     return False
-
-def show_success_message(note_name):
-    print(f"Correct! That was {note_name}")
-
-def show_sequence_complete_message():
-    print("\n🎉 CONGRATULATIONS! You played the entire sequence correctly! 🎉")
-
-def show_failure_message(correct_note_name):
-    print(f"\n❌ INCORRECT. That should have been {correct_note_name}.")
-    print("Let's try a new sequence.")
 
 def game_loop(input_port, output_port):
     print("Game loop started. Press keys on your MIDI device...")
