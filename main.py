@@ -1,6 +1,5 @@
-from midi_utils import open_midi_input_port, open_midi_output_port, play_note
-
-
+from midi_utils import open_midi_input_port, open_midi_output_port
+from game import game_loop
 
 
 if __name__ == "__main__":
@@ -14,9 +13,8 @@ if __name__ == "__main__":
     in_port_name = 'KeyLab mkII 61:KeyLab mkII 61 MIDI 32:0'
     input_port = open_midi_input_port(in_port_name)
 
-    if input_port and output_port:
-        # Play C4 note for 1 second
-        play_note(output_port, note=60, velocity=64, duration=1.0)
+    # Run the game loop with the opened ports
+    game_loop(input_port, output_port)
 
     if output_port:
         # Close the port
