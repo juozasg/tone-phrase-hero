@@ -1,0 +1,6 @@
+- name: openrouter/anthropic/claude-3.7-sonnet
+  extra_params:
+    max_tokens: 64000
+    thinking:
+      type: disabled
+      budget_tokens: 3200
