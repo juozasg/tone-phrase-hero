@@ -7,7 +7,6 @@ import time
 import random
 
 def handle_midi_message(message):
-    output_port = get_output_port()
     if message.type == 'note_on':
         # When a note is pressed, play it on the output port
         if message.velocity > 0:
@@ -31,13 +30,12 @@ def handle_midi_message(message):
 # For the sequence challenge
 sequence_length = 3
 current_position = 0
-target_sequence = []
-target_sequence_names = []
+target_sequence: list[str] = []
 note_options = ['C4', 'D4']
 
 
 
-def generate_challenge(sequence_length, note_options):
+def generate_challenge(sequence_length: int, note_options: list[str]):
     """
     Generate a new sequence challenge and play it for the user.
 
@@ -47,29 +45,20 @@ def generate_challenge(sequence_length, note_options):
 
     """
     global target_sequence
-    global target_sequence_names
 
-    print("\n=== NEW CHALLENGE ===")
-    print(f'Listen to this sequence of {sequence_length} notes:')
 
     # Generate and play the sequence
     for i in range(sequence_length):
         # Choose a random note
-        target_note_name = random.choice(note_options)
-        target_note = note_val(target_note_name)
-
+        target_note = random.choice(note_options)
         target_sequence.append(target_note)
-        target_sequence_names.append(target_note_name)
-
-
-    play_challenge(target_sequence, sequence_length)
 
 
 def reset():
     global target_sequence
-    global target_sequence_names
     global current_position
     global sequence_length
+    global note_options
 
     # Randomize sequence length from 2 to 4
     sequence_length = random.randint(2, 4)
@@ -78,19 +67,29 @@ def reset():
     generate_challenge(sequence_length, note_options)
     current_position = 0
 
+    print("\n=== NEW CHALLENGE ===")
+    print(f'Listen to this sequence of {sequence_length} notes:')
+    play_challenge(target_sequence)
+
+
 
 def reset_position():
     global current_position
+    global target_sequence
+    global sequence_length
+
     current_position = 0
 
     # Replay the sequence to remind the player
     print("\n=== REPLAYING SEQUENCE ===")
     print(f'Listen to this sequence of {sequence_length} notes again:')
-    play_challenge(target_sequence, sequence_length)
+    play_challenge(target_sequence)
 
-def play_challenge(sequence, length):
+# move this to notify.py AI!
+def play_challenge(sequence: list[str]):
+    length = len(sequence)
     for i in range(length):
-        play_note(sequence[i], 64, 0.7)
+        play_note(note_val(sequence[i]), 64, 0.7)
         time.sleep(0.5)
 
     print("\nNow play back the sequence in order.")
@@ -99,7 +98,6 @@ def play_challenge(sequence, length):
 
 def game_loop():
     global target_sequence
-    global target_sequence_names
     global current_position
 
     input_port = get_input_port()
@@ -116,6 +114,7 @@ def game_loop():
             if result:
                 if result['type'] == 'note_off':
                     played_note = result['note']
+                    assert played_note is int
 
                     # Exit game if E1 was played
                     if played_note == note_val('E1'):
@@ -130,8 +129,8 @@ def game_loop():
                         continue
 
                     # Check if the played note matches the current position in the sequence
-                    if played_note == target_sequence[current_position]:
-                        notify_correct_note(target_sequence_names[current_position])
+                    if played_note == note_val(target_sequence[current_position]):
+                        notify_correct_note(target_sequence[current_position])
                         current_position += 1
 
                         if current_position == sequence_length:
@@ -144,7 +143,7 @@ def game_loop():
                             print(f"Note {current_position + 1} of {sequence_length}:")
                     else:
                         time.sleep(0.4)
-                        notify_failure(target_sequence_names[current_position])
+                        notify_failure(target_sequence[current_position])
                         time.sleep(1)
                         reset()
 

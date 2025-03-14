@@ -3,7 +3,7 @@ import threading
 import time
 from midi_play import note_on, note_off
 
-def notify_correct_note(note_name):
+def notify_correct_note(note_name: str):
     print(f"Correct! That was {note_name}")
 
 def notify_sequence_success():
@@ -15,7 +15,7 @@ def notify_sequence_success():
     sound_thread.start()
 
 
-def notify_failure(correct_note_name):
+def notify_failure(correct_note_name: str):
     print(f"\n❌ INCORRECT. That should have been {correct_note_name}.")
 
     # Play the failure sound in a separate thread to not block the game
