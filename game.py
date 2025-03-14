@@ -33,6 +33,10 @@ class GameState:
         play_challenge(self.target_sequence)
 
 
+def print_note_prompt(game_state: GameState):
+    print(f"Note {game_state.current_position + 1} of {len(game_state.target_sequence)}:")
+
+
 def game_loop():
     game_state = GameState()
     input_port = get_input_port()
@@ -43,6 +47,8 @@ def game_loop():
 
     try:
         game_state.new_challenge()
+        print_note_prompt(game_state)
+
         # Wait for user input
         for message in input_port:
             result = midi_receive_and_play(message)
@@ -54,6 +60,7 @@ def game_loop():
                     # Exit game if E1 was played
                     if played_note == note_val('E1'):
                         print("\nExiting!")
+                        time.sleep(0.1)
                         return
 
                     # If C1 was played, reset position but keep the same sequence
@@ -61,6 +68,8 @@ def game_loop():
                         print("\nRestarting the same sequence...")
                         time.sleep(0.5)
                         game_state.replay_challenge()
+
+                        print_note_prompt(game_state)
                         continue
 
                     # Check if the played note matches the current position in the sequence
@@ -74,10 +83,6 @@ def game_loop():
                             notify_sequence_success()
                             time.sleep(2)
                             game_state.new_challenge()
-
-                        # Next note in the sequence
-                        else:
-                            print(f"Note {game_state.current_position + 1} of {len(game_state.target_sequence)}:")
                     # SEQUENCE FAILURE
                     else:
                         time.sleep(0.4)
@@ -85,5 +90,9 @@ def game_loop():
                         time.sleep(1)
                         game_state.new_challenge()
 
+                    print_note_prompt(game_state)
+
     except KeyboardInterrupt:
         print("\nExiting!")
+        time.sleep(0.1)
+
