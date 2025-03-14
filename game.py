@@ -27,6 +27,16 @@ def handle_midi_message(message):
 
     return False
 
+
+# For the sequence challenge
+sequence_length = 3
+current_position = 0
+target_sequence = []
+target_sequence_names = []
+note_options = ['C4', 'D4']
+
+
+
 def generate_challenge(sequence_length, note_options):
     """
     Generate a new sequence challenge and play it for the user.
@@ -38,8 +48,8 @@ def generate_challenge(sequence_length, note_options):
     Returns:
         tuple: (target_sequence, target_sequence_names) - Lists of note values and names
     """
-    target_sequence = []
-    target_sequence_names = []
+    global target_sequence
+    global target_sequence_names
 
     print("\n=== NEW CHALLENGE ===")
     print(f'Listen to this sequence of {sequence_length} notes:')
@@ -53,22 +63,11 @@ def generate_challenge(sequence_length, note_options):
         target_sequence.append(target_note)
         target_sequence_names.append(target_note_name)
 
-        # Play the note
-        play_note(target_note, 64, 0.7)
-        time.sleep(0.5)  # Brief pause between notes
 
-    print("\nNow play back the sequence in order.")
-    print(f"Note 1 of {sequence_length}:")
+    play_challenge()
 
     return target_sequence, target_sequence_names
 
-
-# For the sequence challenge
-sequence_length = 3
-current_position = 0
-target_sequence = []
-target_sequence_names = []
-note_options = ['C4', 'D4']
 
 
 def reset():
@@ -88,15 +87,20 @@ def reset():
 def reset_position():
     global current_position
     current_position = 0
-    
+
     # Replay the sequence to remind the player
     print("\n=== REPLAYING SEQUENCE ===")
     print(f'Listen to this sequence of {sequence_length} notes again:')
-    
+    play_challenge()
+
+def play_challenge():
+    global target_sequence
+    global sequence_length
+
     for i in range(sequence_length):
         play_note(target_sequence[i], 64, 0.7)
         time.sleep(0.5)
-        
+
     print("\nNow play back the sequence in order.")
     print(f"Note 1 of {sequence_length}:")
 
