@@ -1,7 +1,7 @@
 from midi_play import note_on, note_off, play_note
 from midi_ports import get_input_port, get_output_port
 from music import note_val
-from notify import notify_correct_note, notify_sequence_success, notify_failure
+from notify import notify_correct_note, notify_sequence_success, notify_failure, play_challenge
 import threading
 import time
 import random
@@ -84,16 +84,6 @@ def reset_position():
     print("\n=== REPLAYING SEQUENCE ===")
     print(f'Listen to this sequence of {sequence_length} notes again:')
     play_challenge(target_sequence)
-
-# move this to notify.py AI!
-def play_challenge(sequence: list[str]):
-    length = len(sequence)
-    for i in range(length):
-        play_note(note_val(sequence[i]), 64, 0.7)
-        time.sleep(0.5)
-
-    print("\nNow play back the sequence in order.")
-    print(f"Note 1 of {length}:")
 
 
 def game_loop():

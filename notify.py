@@ -1,7 +1,7 @@
 from music import note_val
 import threading
 import time
-from midi_play import note_on, note_off
+from midi_play import note_on, note_off, play_note
 
 def notify_correct_note(note_name: str):
     print(f"Correct! That was {note_name}")
@@ -67,3 +67,12 @@ def play_success_sound():
     #     note = note_val(note_name)
 
     #     time.sleep(0.1)
+
+def play_challenge(sequence: list[str]):
+    length = len(sequence)
+    for i in range(length):
+        play_note(note_val(sequence[i]), 64, 0.7)
+        time.sleep(0.5)
+
+    print("\nNow play back the sequence in order.")
+    print(f"Note 1 of {length}:")
