@@ -28,24 +28,14 @@ def handle_midi_message(message):
 
 
 # For the sequence challenge
-sequence_length = 3
 current_position = 0
 target_sequence: list[str] = []
 note_options = ['C4', 'D4']
 
 
 
-def generate_challenge(sequence_length: int, note_options: list[str]):
-    """
-    Generate a new sequence challenge and play it for the user.
-
-    Args:
-        sequence_length (int): The number of notes in the sequence
-        note_options (list): List of possible note names to choose from
-
-    """
-    global target_sequence
-
+def generate_challenge(sequence_length: int, note_options: list[str]) -> list[str]:
+    target_sequence: list[str] = []
 
     # Generate and play the sequence
     for i in range(sequence_length):
@@ -53,36 +43,35 @@ def generate_challenge(sequence_length: int, note_options: list[str]):
         target_note = random.choice(note_options)
         target_sequence.append(target_note)
 
+    return target_sequence
 
-def reset():
+def new_challenge():
     global target_sequence
     global current_position
-    global sequence_length
     global note_options
 
     # Randomize sequence length from 2 to 4
     sequence_length = random.randint(2, 4)
 
     # Generate a new sequence of notes to guess
-    generate_challenge(sequence_length, note_options)
+    target_sequence = generate_challenge(sequence_length, note_options)
     current_position = 0
 
     print("\n=== NEW CHALLENGE ===")
-    print(f'Listen to this sequence of {sequence_length} notes:')
+    print(f'Listen to this sequence of {len(target_sequence)} notes:')
     play_challenge(target_sequence)
 
 
 
-def reset_position():
+def replay_challenge():
     global current_position
     global target_sequence
-    global sequence_length
 
     current_position = 0
 
     # Replay the sequence to remind the player
     print("\n=== REPLAYING SEQUENCE ===")
-    print(f'Listen to this sequence of {sequence_length} notes again:')
+    print(f'Listen to this sequence of {len(target_sequence)} notes again:')
     play_challenge(target_sequence)
 
 
@@ -97,14 +86,14 @@ def game_loop():
     print("C1 to restart the sequence")
 
     try:
-        reset()
+        new_challenge()
         # Wait for user input
         for message in input_port:
             result = handle_midi_message(message)
             if result:
                 if result['type'] == 'note_off':
                     played_note = result['note']
-                    assert played_note is int
+                    assert type(played_note) is int
 
                     # Exit game if E1 was played
                     if played_note == note_val('E1'):
@@ -115,7 +104,7 @@ def game_loop():
                     if played_note == note_val('C1'):
                         print("\nRestarting the same sequence...")
                         time.sleep(0.5)
-                        reset_position()
+                        replay_challenge()
                         continue
 
                     # Check if the played note matches the current position in the sequence
@@ -123,19 +112,22 @@ def game_loop():
                         notify_correct_note(target_sequence[current_position])
                         current_position += 1
 
-                        if current_position == sequence_length:
+                        # SEQUENCE SUCCESS
+                        if current_position == len(target_sequence):
                             time.sleep(0.4)
                             notify_sequence_success()
                             time.sleep(2)
-                            reset()
+                            new_challenge()
 
+                        # Next note in the sequence
                         else:
-                            print(f"Note {current_position + 1} of {sequence_length}:")
+                            print(f"Note {current_position + 1} of {len(target_sequence)}:")
+                    # SEQUENCE FAILURE
                     else:
                         time.sleep(0.4)
                         notify_failure(target_sequence[current_position])
                         time.sleep(1)
-                        reset()
+                        new_challenge()
 
 
 

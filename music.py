@@ -51,22 +51,22 @@ def note_val(note_name):
 def note_name(midi_value):
     """
     Convert a MIDI note value to its note name.
-    
+
     Args:
         midi_value (int): A MIDI note value (0-127)
-        
+
     Returns:
         str: The note name (e.g., 'C4', 'F#5') or None if the MIDI value is invalid
     """
     if not isinstance(midi_value, int) or midi_value < 0 or midi_value > 127:
         return None
-    
+
     # Note names without accidentals
-    note_names = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
-    
+    note_names = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B']
+
     # Calculate octave and note index
     octave = (midi_value // 12) - 1
     note_idx = midi_value % 12
-    
+
     # Construct the note name
     return f"{note_names[note_idx]}{octave}"
