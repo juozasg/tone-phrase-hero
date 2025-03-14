@@ -1,5 +1,6 @@
 import mido
 import time
+import threading
 
 from midi_ports import get_output_port
 
@@ -49,4 +50,25 @@ def play_note(note=60, velocity=64, duration=1.0):
         note_off(note, velocity)
     except Exception as e:
         print(f"Error playing note: {e}")
+
+
+def midi_receive_and_play(message):
+    if message.type == 'note_on':
+        # When a note is pressed, play it on the output port
+        if message.velocity > 0:
+            print(f"Received note: {message.note}, velocity: {message.velocity}")
+            # Start a new thread to play the note asynchronously
+            note_thread = threading.Thread(target=lambda: note_on(message.note, message.velocity))
+            note_thread.daemon = True  # Thread will exit when main program exits
+            note_thread.start()
+            return {'type': 'note_on', 'note': message.note}
+    elif message.type == 'note_off':
+        # When a note is released, send note off
+        print(f"Received note off: {message.note}")
+        note_thread = threading.Thread(target=lambda: note_off(message.note, message.velocity))
+        note_thread.daemon = True
+        note_thread.start()
+        return {'type': 'note_off', 'note': message.note}
+
+    return False
 

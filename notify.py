@@ -75,4 +75,4 @@ def play_challenge(sequence: list[str]):
         time.sleep(0.5)
 
     print("\nNow play back the sequence in order.")
-    print(f"Note 1 of {length}:")
+    # print(f"Note 1 of {length}:")
