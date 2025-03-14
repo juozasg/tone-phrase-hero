@@ -9,21 +9,22 @@ def print_note_prompt(game_state: GameState):
     # Create a visual representation of the sequence progress
     sequence_length = len(game_state.target_sequence)
     progress = []
-    
+
     # Add completed notes
+    # completed notes are shown in green AI!
     for i in range(game_state.current_position):
         progress.append(game_state.target_sequence[i])
-    
+
     # Add current note indicator
     if game_state.current_position < sequence_length:
         progress.append("?")
-    
+
     # Add greyed out question marks for remaining notes
     for i in range(game_state.current_position + 1, sequence_length):
         progress.append("\033[90m?\033[0m")  # Grey color in terminal
-    
+
     # Print the progress on a single line
-    print(f"{game_state.current_position + 1} of {sequence_length}: {' '.join(progress)}")
+    print(' '.join(progress))
 
 
 def game_loop():
