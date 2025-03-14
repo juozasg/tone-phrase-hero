@@ -31,6 +31,10 @@ class GameState:
         print("\n=== REPLAYING SEQUENCE ===")
         print(f'Listen to this sequence of {len(self.target_sequence)} notes again:')
         play_challenge(self.target_sequence)
+        
+    def current_target_note(self):
+        """Return the note at the current position in the target sequence"""
+        return self.target_sequence[self.current_position]
 
 
 def print_note_prompt(game_state: GameState):
@@ -73,8 +77,8 @@ def game_loop():
                         continue
 
                     # Check if the played note matches the current position in the sequence
-                    if played_note == note_val(game_state.target_sequence[game_state.current_position]):
-                        notify_correct_note(game_state.target_sequence[game_state.current_position])
+                    if played_note == note_val(game_state.current_target_note()):
+                        notify_correct_note(game_state.current_target_note())
                         game_state.current_position += 1
 
                         # SEQUENCE SUCCESS
@@ -86,7 +90,7 @@ def game_loop():
                     # SEQUENCE FAILURE
                     else:
                         time.sleep(0.4)
-                        notify_failure(game_state.target_sequence[game_state.current_position])
+                        notify_failure(game_state.current_target_note())
                         time.sleep(1)
                         game_state.new_challenge()
 
@@ -95,4 +99,3 @@ def game_loop():
     except KeyboardInterrupt:
         print("\nExiting!")
         time.sleep(0.1)
-
