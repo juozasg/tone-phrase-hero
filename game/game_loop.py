@@ -6,7 +6,7 @@ from game.notify import notify_correct_note, notify_sequence_success, notify_fai
 import time
 
 def print_note_prompt(game_state: GameState):
-    print(f"Note {game_state.current_position + 1} of {len(game_state.target_sequence)}:")
+    print(f"{game_state.current_position + 1} of {len(game_state.target_sequence)}")
 
 
 def game_loop():
@@ -42,7 +42,7 @@ def game_loop():
 
                 # Check if the played note matches the current position in the sequence
                 if played_note == note_val(game_state.current_target_note()):
-                    notify_correct_note(game_state.current_target_note())
+                    notify_correct_note(game_state)
                     game_state.current_position += 1
 
                     # SEQUENCE SUCCESS
@@ -55,7 +55,7 @@ def game_loop():
                 # SEQUENCE FAILURE
                 else:
                     time.sleep(0.4)
-                    notify_failure(game_state.current_target_note())
+                    notify_failure(game_state)
                     time.sleep(1)
                     game_state.failure()
                     game_state.new_challenge()

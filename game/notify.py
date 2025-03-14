@@ -3,11 +3,13 @@ import threading
 import time
 from game.midi.note_play import note_on, note_off, play_note
 
-def notify_correct_note(note_name: str):
-    print(f"Correct! That was {note_name}")
+def notify_correct_note(game_state):
+    note_name = game_state.current_target_note()
+    print(f"✅ {note_name}")
 
 def notify_sequence_success():
-    print("\n🎉 CONGRATULATIONS! You played the entire sequence correctly! 🎉")
+    # print("\n🎉 CONGRATULATIONS! 🎉")
+    print("\n🎉 🎉 🎉")
 
     # Play success sound in a separate thread
     sound_thread = threading.Thread(target=play_success_sound)
@@ -15,8 +17,17 @@ def notify_sequence_success():
     sound_thread.start()
 
 
-def notify_failure(correct_note_name: str):
+def notify_failure(game_state):
+    correct_note_name = game_state.current_target_note()
     print(f"\n❌ INCORRECT. That should have been {correct_note_name}.")
+
+    correct_seq = game_state.target_sequence[:game_state.current_position]
+
+    play_note_list(correct_seq)
+
+    play_note(note_val(correct_note_name), 64, 1.5)
+    time.sleep(0.4)
+
 
     # Play the failure sound in a separate thread to not block the game
     # sound_thread = threading.Thread(target=play_failure_sound)
@@ -28,7 +39,7 @@ def notify_failure(correct_note_name: str):
     play_failure_sound(0)
     time.sleep(0.5)
 
-    print("Let's try a new sequence.")
+    # print("Let's try a new sequence.")
 
 def play_failure_sound(transpose = 0):
     # failure_notes = ['C2', 'D2', 'E2', 'F2', 'G2']
@@ -68,11 +79,11 @@ def play_success_sound():
 
     #     time.sleep(0.1)
 
-def play_challenge(sequence: list[str]):
+def play_note_list(sequence: list[str]):
     length = len(sequence)
     for i in range(length):
         play_note(note_val(sequence[i]), 64, 0.7)
         time.sleep(0.5)
 
-    print("\nNow play back the sequence in order.")
+    # print("\nNow play back the sequence in order.")
     # print(f"Note 1 of {length}:")
