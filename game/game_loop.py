@@ -7,6 +7,8 @@ import time
 
 def print_note_prompt(game_state: GameState):
     print(f"{game_state.current_position + 1} of {len(game_state.target_sequence)}")
+    # instead of printing new lines for each note, it should print them on the same line with greyed out question marks for the notes that have not been played yet AI!
+
 
 
 def game_loop():
