@@ -79,7 +79,7 @@ def reset():
 
     # Randomize sequence length from 2 to 4
     sequence_length = random.randint(2, 4)
-    
+
     # Generate a new sequence of notes to guess
     target_sequence, target_sequence_names = generate_challenge(sequence_length, note_options)
     current_position = 0
@@ -93,7 +93,8 @@ def game_loop():
     input_port = get_input_port()
 
     print("Game loop started. Press keys on your MIDI device...")
-    print("Press Ctrl+C or C1 to exit")
+    print("Press Ctrl+C or E1 to exit")
+    print("C1 to restart the sequence")
 
     try:
         reset()
@@ -104,10 +105,12 @@ def game_loop():
                 if result['type'] == 'note_off':
                     played_note = result['note']
 
-                    # Exit game if C1 was played
-                    if played_note == note_val('C1'):
-                        print("\Exiting!")
+                    # Exit game if E1 was played
+                    if played_note == note_val('E1'):
+                        print("\nExiting!")
                         return
+
+                    # if C1 was played then sleep and reset the game but reuse the same sequence AI!
 
                     # Check if the played note matches the current position in the sequence
                     if played_note == target_sequence[current_position]:
