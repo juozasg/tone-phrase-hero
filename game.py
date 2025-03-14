@@ -85,6 +85,22 @@ def reset():
     current_position = 0
 
 
+def reset_position():
+    global current_position
+    current_position = 0
+    
+    # Replay the sequence to remind the player
+    print("\n=== REPLAYING SEQUENCE ===")
+    print(f'Listen to this sequence of {sequence_length} notes again:')
+    
+    for i in range(sequence_length):
+        play_note(target_sequence[i], 64, 0.7)
+        time.sleep(0.5)
+        
+    print("\nNow play back the sequence in order.")
+    print(f"Note 1 of {sequence_length}:")
+
+
 def game_loop():
     global target_sequence
     global target_sequence_names
@@ -110,7 +126,12 @@ def game_loop():
                         print("\nExiting!")
                         return
 
-                    # if C1 was played then sleep and reset the game but reuse the same sequence AI!
+                    # If C1 was played, reset position but keep the same sequence
+                    if played_note == note_val('C1'):
+                        print("\nRestarting the same sequence...")
+                        time.sleep(0.5)
+                        reset_position()
+                        continue
 
                     # Check if the played note matches the current position in the sequence
                     if played_note == target_sequence[current_position]:
