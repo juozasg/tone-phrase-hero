@@ -1,4 +1,4 @@
-def note_val(note_name):
+def note_val(note_name: str) -> int:
     """
     Convert a note name (e.g., 'C4', 'F#5', 'Bb3') to its MIDI note value.
 
@@ -11,7 +11,7 @@ def note_val(note_name):
         int: The MIDI note value (0-127) or None if the note name is invalid
     """
     if not note_name or len(note_name) < 2:
-        return None
+        raise ValueError("Invalid note name", note_name)
 
     # Parse the note name
     note_letter = note_name[0].upper()
@@ -30,13 +30,13 @@ def note_val(note_name):
     try:
         octave = int(note_name[idx:])
     except ValueError:
-        return None
+        raise ValueError("Invalid note name", note_name)
 
     # Base values for notes (C, D, E, F, G, A, B)
     base_values = {'C': 0, 'D': 2, 'E': 4, 'F': 5, 'G': 7, 'A': 9, 'B': 11}
 
     if note_letter not in base_values:
-        return None
+        raise ValueError("Invalid note name", note_name)
 
     # Calculate MIDI note value
     # MIDI note 60 is middle C (C4)
@@ -46,20 +46,11 @@ def note_val(note_name):
     if 0 <= midi_value <= 127:
         return midi_value
     else:
-        return None
+        raise ValueError("Invalid note name", note_name)
 
-def note_name(midi_value):
-    """
-    Convert a MIDI note value to its note name.
-
-    Args:
-        midi_value (int): A MIDI note value (0-127)
-
-    Returns:
-        str: The note name (e.g., 'C4', 'F#5') or None if the MIDI value is invalid
-    """
+def note_name(midi_value: int) -> str:
     if not isinstance(midi_value, int) or midi_value < 0 or midi_value > 127:
-        return None
+        raise ValueError("Invalid note MIDI value", midi_value)
 
     # Note names without accidentals
     note_names = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B']

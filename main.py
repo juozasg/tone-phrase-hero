@@ -1,6 +1,5 @@
-from midi_ports import open_midi_ports, close_midi_ports
-from game import game_loop
-
+from game.midi.ports import open_midi_ports, close_midi_ports
+from game.game_loop import game_loop
 
 
 if __name__ == "__main__":

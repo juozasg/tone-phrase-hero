@@ -1,8 +1,8 @@
-from game_state import GameState
-from midi_play import midi_receive_and_play
-from midi_ports import get_input_port
-from music import note_val
-from notify import notify_correct_note, notify_sequence_success, notify_failure
+from game.game_state import GameState
+from game.midi.note_play import midi_through_capture_off
+from game.midi.ports import get_input_port
+from game.music import note_val
+from game.notify import notify_correct_note, notify_sequence_success, notify_failure
 import time
 
 def print_note_prompt(game_state: GameState):
@@ -23,15 +23,12 @@ def game_loop():
 
         # Wait for user input
         for message in input_port:
-            result = midi_receive_and_play(message)
-            if result and result['type'] == 'note_off':
-                played_note = result['note']
-                assert type(played_note) is int
-
+            played_note = midi_through_capture_off(message)
+            if type(played_note) is int:
                 # Exit game if E1 was played
                 if played_note == note_val('E1'):
                     print("\nExiting!")
-                    time.sleep(0.1)
+                    time.sleep(0.5 )
                     return
 
                 # If C1 was played, reset position but keep the same sequence
@@ -67,4 +64,4 @@ def game_loop():
 
     except KeyboardInterrupt:
         print("\nExiting!")
-        time.sleep(0.1)
+        time.sleep(0.3)

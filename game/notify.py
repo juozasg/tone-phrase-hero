@@ -1,7 +1,7 @@
-from music import note_val
+from game.music import note_val
 import threading
 import time
-from midi_play import note_on, note_off, play_note
+from game.midi.note_play import note_on, note_off, play_note
 
 def notify_correct_note(note_name: str):
     print(f"Correct! That was {note_name}")

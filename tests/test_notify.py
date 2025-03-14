@@ -6,8 +6,8 @@ import os
 # Add the parent directory to the Python path so we can import modules from there
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from midi_ports import open_midi_ports, close_midi_ports
-from notify import play_success_sound, play_failure_sound
+from game.midi.ports import open_midi_ports, close_midi_ports
+from game.notify import play_success_sound, play_failure_sound
 
 class TestNotify(unittest.TestCase):
     def setUp(self):

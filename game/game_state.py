@@ -1,5 +1,5 @@
-from generate_challenge import generate_challenge
-from notify import play_challenge
+from game.generate_challenge import generate_challenge
+from game.notify import play_challenge
 
 import random
 

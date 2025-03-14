@@ -4,7 +4,7 @@ import os
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from music import note_val, note_name
+from game.music import note_val, note_name
 
 class TestNoteVal(unittest.TestCase):
     def test_middle_c(self):
@@ -63,7 +63,6 @@ class TestNoteName(unittest.TestCase):
         self.assertEqual(note_name(127), "G9")  # Highest valid note
         self.assertIsNone(note_name(-1))  # Too low
         self.assertIsNone(note_name(128))  # Too high
-        self.assertIsNone(note_name("not a number"))  # Not a number
 
 if __name__ == "__main__":
     unittest.main()

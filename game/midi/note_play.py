@@ -1,8 +1,9 @@
 import mido
 import time
 import threading
+from typing import Any, Union
 
-from midi_ports import get_output_port
+from game.midi.ports import get_output_port
 
 
 def note_on(note=60, velocity=64):
@@ -52,7 +53,9 @@ def play_note(note=60, velocity=64, duration=1.0):
         print(f"Error playing note: {e}")
 
 
-def midi_receive_and_play(message):
+
+
+def midi_through_capture_off(message: Any) -> Union[int, bool]:
     if message.type == 'note_on':
         # When a note is pressed, play it on the output port
         if message.velocity > 0:
@@ -61,14 +64,15 @@ def midi_receive_and_play(message):
             note_thread = threading.Thread(target=lambda: note_on(message.note, message.velocity))
             note_thread.daemon = True  # Thread will exit when main program exits
             note_thread.start()
-            return {'type': 'note_on', 'note': message.note}
+            # return {'type': 'note_on', 'note': message.note}
     elif message.type == 'note_off':
         # When a note is released, send note off
         print(f"Received note off: {message.note}")
         note_thread = threading.Thread(target=lambda: note_off(message.note, message.velocity))
         note_thread.daemon = True
         note_thread.start()
-        return {'type': 'note_off', 'note': message.note}
+        # return {'type': 'note_off', 'note': message.note}
+        return message.note
 
     return False
 
