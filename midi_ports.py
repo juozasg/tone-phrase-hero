@@ -5,12 +5,13 @@ import mido
 _current_output_port = None
 _current_input_port = None
 
-def get_output_port():
+def get_output_port() -> mido.ports.BaseOutput:
+    assert _current_output_port is not None, "Output port not initialized"
     return _current_output_port
 
 def get_input_port() -> mido.ports.BaseInput:
+    assert _current_input_port is not None, "Input port not initialized"
     return _current_input_port
-
 
 def open_midi_ports():
     global _current_output_port
@@ -37,7 +38,7 @@ def close_midi_ports():
 
 def open_midi_output_port(port_name):
     try:
-        output_port = mido.open_output(port_name)
+        output_port: mido.ports.BaseOutput = mido.open_output(port_name) # type: ignore
         print(f"Opened MIDI output port: {port_name}")
         return output_port
     except Exception as e:
@@ -47,7 +48,7 @@ def open_midi_output_port(port_name):
 
 def open_midi_input_port(port_name):
     try:
-        input_port = mido.open_input(port_name)
+        input_port: mido.ports.BaseInput = mido.open_input(port_name) # type: ignore
         print(f"Opened MIDI input port: {port_name}")
         return input_port
     except Exception as e:
@@ -56,8 +57,8 @@ def open_midi_input_port(port_name):
 
 
 def list_midi_ports():
-    input_ports = mido.get_input_names()
-    output_ports = mido.get_output_names()
+    input_ports = mido.get_input_names() # type: ignore
+    output_ports = mido.get_output_names() # type: ignore
 
     print("Available MIDI Input Ports:")
     if input_ports:
