@@ -45,8 +45,6 @@ def generate_challenge(sequence_length, note_options):
         sequence_length (int): The number of notes in the sequence
         note_options (list): List of possible note names to choose from
 
-    Returns:
-        tuple: (target_sequence, target_sequence_names) - Lists of note values and names
     """
     global target_sequence
     global target_sequence_names
@@ -66,9 +64,6 @@ def generate_challenge(sequence_length, note_options):
 
     play_challenge()
 
-    return target_sequence, target_sequence_names
-
-
 
 def reset():
     global target_sequence
@@ -80,7 +75,7 @@ def reset():
     sequence_length = random.randint(2, 4)
 
     # Generate a new sequence of notes to guess
-    target_sequence, target_sequence_names = generate_challenge(sequence_length, note_options)
+    generate_challenge(sequence_length, note_options)
     current_position = 0
 
 
@@ -93,6 +88,7 @@ def reset_position():
     print(f'Listen to this sequence of {sequence_length} notes again:')
     play_challenge()
 
+# replace globals with parametrs in play_challenge AI!
 def play_challenge():
     global target_sequence
     global sequence_length
