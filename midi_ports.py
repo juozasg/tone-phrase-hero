@@ -8,7 +8,7 @@ _current_input_port = None
 def get_output_port():
     return _current_output_port
 
-def get_input_port():
+def get_input_port() -> mido.ports.BaseInput:
     return _current_input_port
 
 

@@ -53,12 +53,14 @@ def game_loop():
                         time.sleep(0.4)
                         notify_sequence_success()
                         time.sleep(2)
+                        game_state.success()
                         game_state.new_challenge()
                 # SEQUENCE FAILURE
                 else:
                     time.sleep(0.4)
                     notify_failure(game_state.current_target_note())
                     time.sleep(1)
+                    game_state.failure()
                     game_state.new_challenge()
 
                 print_note_prompt(game_state)
