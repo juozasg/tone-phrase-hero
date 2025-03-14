@@ -1,29 +1,11 @@
-from game.game_state import GameState
 from game.midi.note_play import midi_through_capture_off
 from game.midi.ports import get_input_port
 from game.music import note_val
-from game.notify import notify_correct_note, notify_sequence_success, notify_failure
+from game.notify import notify_correct_note, notify_sequence_success, notify_failure, print_note_prompt
+from game.game_state import GameState
+
 import time
 
-def print_note_prompt(game_state: GameState):
-    # Create a visual representation of the sequence progress
-    sequence_length = len(game_state.target_sequence)
-    progress = []
-
-    # Add completed notes in green
-    for i in range(game_state.current_position):
-        progress.append(f"\033[92m{game_state.target_sequence[i]}\033[0m")
-
-    # Add current note indicator
-    if game_state.current_position < sequence_length:
-        progress.append("?")
-
-    # Add greyed out question marks for remaining notes
-    for i in range(game_state.current_position + 1, sequence_length):
-        progress.append("\033[90m?\033[0m")  # Grey color in terminal
-
-    # Print the progress on a single line
-    print(' '.join(progress))
 
 
 def game_loop():
@@ -65,8 +47,10 @@ def game_loop():
                     # SEQUENCE SUCCESS
                     if game_state.current_position == len(game_state.target_sequence):
                         time.sleep(0.4)
-                        notify_sequence_success()
-                        time.sleep(2)
+                        notify_sequence_success(game_state)
+                        time.sleep(1)
+                        print("🎉 " * (game_state.length_difficulty + 2))
+                        print("")
                         game_state.success()
                         game_state.new_challenge()
                 # SEQUENCE FAILURE

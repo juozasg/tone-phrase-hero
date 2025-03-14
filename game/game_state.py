@@ -1,7 +1,8 @@
 from game.generate_challenge import MelodyShape, generate_challenge, make_note_options
-from game.notify import play_note_list
 
 import random
+
+from game.play_sounds import play_note_list
 # from enum import Enum
 
 class GameState:

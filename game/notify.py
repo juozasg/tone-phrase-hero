@@ -1,15 +1,41 @@
+from game.game_state import GameState
 from game.music import note_val
 import threading
 import time
 from game.midi.note_play import note_on, note_off, play_note
+from game.play_sounds import play_failure_sound, play_note_list, play_success_sound
+
+
+def print_note_prompt(game_state: GameState):
+    # Create a visual representation of the sequence progress
+    sequence_length = len(game_state.target_sequence)
+    progress = []
+
+    # Add completed notes in green
+    for i in range(game_state.current_position):
+        progress.append(f"\033[92m{game_state.target_sequence[i]}\033[0m")
+
+    # Add current note indicator
+    if game_state.current_position < sequence_length:
+        progress.append("?")
+
+    # Add greyed out question marks for remaining notes
+    for i in range(game_state.current_position + 1, sequence_length):
+        progress.append("\033[90m?\033[0m")  # Grey color in terminal
+
+    # if(game_state.current_position == sequence_length):
+    #     progress.append(" 🎉 🎉 🎉")
+    # Print the progress on a single line
+    print(' '.join(progress))
+
 
 def notify_correct_note(game_state):
     note_name = game_state.current_target_note()
-    print(f"✅ {note_name}")
+    # print(f"✅ {note_name}")
 
-def notify_sequence_success():
+def notify_sequence_success(game_state):
     # print("\n🎉 CONGRATULATIONS! 🎉")
-    print("\n🎉 🎉 🎉")
+    print_note_prompt(game_state)
 
     # Play success sound in a separate thread
     sound_thread = threading.Thread(target=play_success_sound)
@@ -40,50 +66,3 @@ def notify_failure(game_state):
     time.sleep(0.5)
 
     # print("Let's try a new sequence.")
-
-def play_failure_sound(transpose = 0):
-    # failure_notes = ['C2', 'D2', 'E2', 'F2', 'G2']
-    failure_notes = ['C2', 'G2']
-    for note_name in failure_notes:
-        note = note_val(note_name) + transpose
-        note_on(note, 64)
-        # time.sleep(0.05)  # Stagger by 50ms
-
-    # Wait a bit before turning off all notes
-    time.sleep(0.4)
-
-    # Turn off all notes
-    for note_name in failure_notes:
-        note = note_val(note_name) + transpose
-        note_off(note, 64)
-
-def play_success_sound():
-    success_notes = ['C2', 'G2', 'C3']
-    velocity = 50  # Slightly louder for celebration
-
-    # Play each note in sequence with a slight delay
-    for note_name in success_notes:
-        velocity += 15
-        note = note_val(note_name)
-        note_on(note, velocity)
-        time.sleep(0.08)  # Short delay between notes for arpeggio effect
-        note_off(note, velocity)
-        time.sleep(0.03)
-
-    # # Hold the final chord briefly
-    # time.sleep(0.25)
-
-    # # Turn off all notes in reverse order for a nice effect
-    # for note_name in reversed(success_notes):
-    #     note = note_val(note_name)
-
-    #     time.sleep(0.1)
-
-def play_note_list(sequence: list[str]):
-    length = len(sequence)
-    for i in range(length):
-        play_note(note_val(sequence[i]), 64, 0.7)
-        time.sleep(0.5)
-
-    # print("\nNow play back the sequence in order.")
-    # print(f"Note 1 of {length}:")
