@@ -1,49 +1,17 @@
-from midi_play import note_on, note_off, play_note
-from midi_ports import get_input_port, get_output_port
+from generate_challenge import generate_challenge
+from midi_play import midi_receive_and_play
+from midi_ports import get_input_port
 from music import note_val
 from notify import notify_correct_note, notify_sequence_success, notify_failure, play_challenge
-import threading
 import time
 import random
 
-def handle_midi_message(message):
-    if message.type == 'note_on':
-        # When a note is pressed, play it on the output port
-        if message.velocity > 0:
-            print(f"Received note: {message.note}, velocity: {message.velocity}")
-            # Start a new thread to play the note asynchronously
-            note_thread = threading.Thread(target=lambda: note_on(message.note, message.velocity))
-            note_thread.daemon = True  # Thread will exit when main program exits
-            note_thread.start()
-            return {'type': 'note_on', 'note': message.note}
-    elif message.type == 'note_off':
-        # When a note is released, send note off
-        print(f"Received note off: {message.note}")
-        note_thread = threading.Thread(target=lambda: note_off(message.note, message.velocity))
-        note_thread.daemon = True
-        note_thread.start()
-        return {'type': 'note_off', 'note': message.note}
-
-    return False
-
-
 # For the sequence challenge
+# refactor these globals into a class named GameState AI!
 current_position = 0
 target_sequence: list[str] = []
 note_options = ['C4', 'D4']
 
-
-
-def generate_challenge(sequence_length: int, note_options: list[str]) -> list[str]:
-    target_sequence: list[str] = []
-
-    # Generate and play the sequence
-    for i in range(sequence_length):
-        # Choose a random note
-        target_note = random.choice(note_options)
-        target_sequence.append(target_note)
-
-    return target_sequence
 
 def new_challenge():
     global target_sequence
@@ -89,7 +57,7 @@ def game_loop():
         new_challenge()
         # Wait for user input
         for message in input_port:
-            result = handle_midi_message(message)
+            result = midi_receive_and_play(message)
             if result:
                 if result['type'] == 'note_off':
                     played_note = result['note']
