@@ -62,7 +62,7 @@ def generate_challenge(sequence_length, note_options):
         target_sequence_names.append(target_note_name)
 
 
-    play_challenge()
+    play_challenge(target_sequence, sequence_length)
 
 
 def reset():
@@ -86,19 +86,15 @@ def reset_position():
     # Replay the sequence to remind the player
     print("\n=== REPLAYING SEQUENCE ===")
     print(f'Listen to this sequence of {sequence_length} notes again:')
-    play_challenge()
+    play_challenge(target_sequence, sequence_length)
 
-# replace globals with parametrs in play_challenge AI!
-def play_challenge():
-    global target_sequence
-    global sequence_length
-
-    for i in range(sequence_length):
-        play_note(target_sequence[i], 64, 0.7)
+def play_challenge(sequence, length):
+    for i in range(length):
+        play_note(sequence[i], 64, 0.7)
         time.sleep(0.5)
 
     print("\nNow play back the sequence in order.")
-    print(f"Note 1 of {sequence_length}:")
+    print(f"Note 1 of {length}:")
 
 
 def game_loop():
