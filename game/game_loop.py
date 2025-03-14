@@ -10,10 +10,9 @@ def print_note_prompt(game_state: GameState):
     sequence_length = len(game_state.target_sequence)
     progress = []
 
-    # Add completed notes
-    # completed notes are shown in green AI!
+    # Add completed notes in green
     for i in range(game_state.current_position):
-        progress.append(game_state.target_sequence[i])
+        progress.append(f"\033[92m{game_state.target_sequence[i]}\033[0m")
 
     # Add current note indicator
     if game_state.current_position < sequence_length:
