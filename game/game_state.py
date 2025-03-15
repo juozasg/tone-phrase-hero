@@ -34,8 +34,9 @@ class GameState:
             print("[---] LENGTH:", (self.length_difficulty + 2) * '🎹 ')
 
         # if more wins than loses, roll 25% to increase note_difficulty. with more consecutive wins, increase chance
-        if(self.total_successes > self.total_failures ):
-            if(random.random() < 0.25 + (self.consecutive_successes * 0.05)):
+        correct_percentage = self.total_successes / (self.total_successes + self.total_failures)
+        if(correct_percentage > 0.85):
+            if(random.random() < 0.10 + (self.consecutive_successes * 0.01)):
                 self.note_difficulty = min(9, self.note_difficulty + 1)
                 print("[+++] NOTES:", ' '.join(make_note_options(self.note_difficulty)))
 
@@ -58,7 +59,7 @@ class GameState:
             print("[---] MELODIC SHAPE")
             self.print_melodic_shape(MelodyShape(self.shape_difficulty))
 
-        print(f"\nTotal: {self.total_successes}/{self.total_failures}     Consecutive: {self.consecutive_successes}/{self.consecutive_failures}")
+        print(f"\nTotal: {self.total_successes}/{self.total_failures} ({correct_percentage} correct)    Consecutive: {self.consecutive_successes}/{self.consecutive_failures}")
 
     def print_melodic_shape(self, shape: MelodyShape):
         if shape == MelodyShape.UP:
