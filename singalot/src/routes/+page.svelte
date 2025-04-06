@@ -6,7 +6,6 @@
 <div class="container grid-lg">
 <Game/>
 
-<button class="btn btn-primary">primary button</button>
 
 <!--
 	<div class="container grid-lg">
