@@ -1,2 +1,31 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script>
+	import Game from "$lib/Game.svelte";
+
+</script>
+
+<div class="container grid-lg">
+<Game/>
+
+<button class="btn btn-primary">primary button</button>
+
+
+	<div class="container grid-lg">
+		<div class="columns">
+			<div class="column col-sm-12 col-md-6">ONE</div>
+			<div class="column col-sm-12 col-md-6">TWO</div>
+		</div>
+	</div>
+</div>
+
+<style>
+
+	.container {
+		/* background-color: #f0f0f0; */
+		/* border: 1px solid red; */
+
+	}
+
+	.column {
+		/* border: 1px solid red; */
+	}
+</style>
