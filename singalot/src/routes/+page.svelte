@@ -8,13 +8,13 @@
 
 <button class="btn btn-primary">primary button</button>
 
-
+<!--
 	<div class="container grid-lg">
 		<div class="columns">
 			<div class="column col-sm-12 col-md-6">ONE</div>
 			<div class="column col-sm-12 col-md-6">TWO</div>
 		</div>
-	</div>
+	</div> -->
 </div>
 
 <style>
