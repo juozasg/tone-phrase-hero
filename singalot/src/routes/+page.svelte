@@ -1,14 +1,5 @@
 <script>
-	import Game from '$lib/Game.svelte';
+	import { goto } from '$app/navigation';
+	goto('/lesson01');
 </script>
 
-<div class="container grid-lg">
-	<Game />
-</div>
-
-<style>
-
-	.container {
-		position: relative;
-	}
-</style>
