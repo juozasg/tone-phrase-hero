@@ -1,13 +1,10 @@
 <script lang="ts">
-	// import Dice from '$lib/assets/dice.svg';
-
 	type Props = {
 		size?: number;
 		callback: () => void;
 	};
 	const { size = 80, callback }: Props = $props();
 
-	import { onMount } from 'svelte';
 
 	let isSpinning = $state(false);
 
@@ -20,6 +17,15 @@
 		}, 300);
 	}
 </script>
+
+
+<svelte:body
+	onkeydown={(e) => {
+		if (e.key === 'r' || e.key === 'R') {
+			handleClick()
+		}
+	}}
+/>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
