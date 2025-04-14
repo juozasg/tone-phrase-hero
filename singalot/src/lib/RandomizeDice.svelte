@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getAudioContext, playChord } from "./audio.svelte";
+	import { getAudioContext } from "./audio.svelte";
 
 	type Props = {
 		size?: number;

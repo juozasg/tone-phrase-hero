@@ -1,13 +1,8 @@
 <script lang="ts">
-	import { page } from '$app/state';
 	import { loadScoreCookie, sortedScores } from './scoreCookie.svelte';
 	import { secondsToTime } from './util';
 
-
 	loadScoreCookie();
-
-	// const scores = 	Array.from({ length: 32 }, () => Math.floor(Math.random() * 191) + 10);
-
 </script>
 
 <div class="highscore">

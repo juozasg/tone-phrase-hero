@@ -4,10 +4,11 @@
 	import RandomizeDice from './RandomizeDice.svelte';
 	import { playChord } from './audio.svelte';
 	import { blackSemitones, type Mood, type Semitone } from './names';
+	import { settings } from './settings.svelte';
 
 	type Props = {
 		onQuestionReset: () => void;
-		gameInitState: boolean
+		gameInitState: boolean;
 	};
 	const { onQuestionReset, gameInitState }: Props = $props();
 
@@ -54,7 +55,9 @@
 		// console.log('generated question', semitone, mood);
 
 		onQuestionReset();
-		playChord(semitone, mood);
+		if (settings.playChord) {
+			playChord(semitone, mood);
+		}
 	};
 
 	const selectedKeys = $derived.by(() => {
@@ -63,9 +66,7 @@
 		}
 		return [];
 	});
-
 </script>
-
 
 <div class="question">
 	<div class="container">
@@ -79,7 +80,11 @@
 			</div>
 
 			<div class="column col-sm-12 col-4">
-				<MoodButton mood={mood} hidden={gameInitState} onClick={() => playChord(semitone!, mood)	}/>
+				<MoodButton
+					{mood}
+					hidden={gameInitState || settings.hideEmoji}
+					onClick={() => playChord(semitone!, mood)}
+				/>
 			</div>
 		</div>
 	</div>
