@@ -6,8 +6,9 @@
 
 	type Props = {
 		onQuestionReset: () => void;
+		gameInitState: boolean
 	};
-	const { onQuestionReset }: Props = $props();
+	const { onQuestionReset, gameInitState }: Props = $props();
 
 	let randomizeDice: RandomizeDice;
 
@@ -76,7 +77,7 @@
 			</div>
 
 			<div class="column col-sm-12 col-4">
-				<MoodButton mood={mood} hidden={false}/>
+				<MoodButton mood={mood} hidden={gameInitState}/>
 			</div>
 		</div>
 	</div>

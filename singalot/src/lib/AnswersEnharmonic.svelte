@@ -20,8 +20,8 @@
 
 <div class="answers">
 	<!-- C# key -->
-	<button class="btn btn-primary" onclick={() => onAnswered(!enharmonicNeeded())}>{germanNames(semitone, mood)}</button>
-	<button class="btn btn-primary" onclick={() => onAnswered(enharmonicNeeded())}>{germanNames(semitone, mood)} / {germanEnharmonics(semitone, mood)}</button>
+	<button class="btn btn-primary btn-success" onclick={() => onAnswered(!enharmonicNeeded())}>{germanNames(semitone, mood)}</button>
+	<button class="btn btn-primary btn-success" onclick={() => onAnswered(enharmonicNeeded())}>{germanNames(semitone, mood)} / {germanEnharmonics(semitone, mood)}</button>
 </div>
 
 <style>

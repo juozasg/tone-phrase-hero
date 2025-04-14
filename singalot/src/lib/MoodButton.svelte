@@ -7,7 +7,7 @@
 		size?: number;
 		onClick?: () => void;
 	};
-	const { mood, size = 80, hidden = false, onClick = () => {alert('1')} }: Props = $props();
+	const { mood, size = 80, hidden = false, onClick = () => {} }: Props = $props();
 </script>
 
 <div class="emoji-container" style="font-size: {size}px;">

@@ -63,7 +63,7 @@
 
 </script>
 
-<Question {onQuestionReset} bind:this={question} />
+<Question {onQuestionReset} {gameInitState} bind:this={question} />
 
 {#if !gameInitState && semitone && mood}
 	{#if questionState == '1'}
