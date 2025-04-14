@@ -1,23 +1,27 @@
 <script lang="ts">
-	import type { Mood } from "./names";
+	import { germanEnharmonics, germanNames, type Mood, type Semitone } from './names';
 
 	interface Props {
-		key: string;
-		mood: Mood
-		answerOnClick: (key: string, keyEnharmonic: string, mood: 'happy' | 'sad') => void;
+		semitone: Semitone;
+		mood: 'happy' | 'sad';
+		onAnswered: (correct: boolean) => void;
 	}
+	const { semitone, mood, onAnswered }: Props = $props();
 
-
-
-	const { key, mood, answerOnClick }: Props = $props();
+	const enharmonicNeeded = () => {
+		if (mood === 'sad') {
+			return semitone === 3 || semitone === 10;
+		} else if (mood === 'happy') {
+			return semitone === 6;
+		}
+		return false;
+	};
 </script>
 
 <div class="answers">
 	<!-- C# key -->
-	<button class="btn btn-primary" onclick={() => answerOnClick('C#', 'sad')}>Cis moll</button>
-	<button class="btn btn-primary" onclick={() => answerOnClick('C#', 'happy')}>Des dur</button>
-
-
+	<button class="btn btn-primary" onclick={() => onAnswered(!enharmonicNeeded())}>{germanNames(semitone, mood)}</button>
+	<button class="btn btn-primary" onclick={() => onAnswered(enharmonicNeeded())}>{germanNames(semitone, mood)} / {germanEnharmonics(semitone, mood)}</button>
 </div>
 
 <style>

@@ -1,6 +1,5 @@
 <script lang="ts">
-	import HelpHint from "./HelpHint.svelte";
-	import { secondsToTime } from "./util";
+	import { secondsToTime } from './util';
 
 	let score = $state(0);
 	let time = $state(0);
@@ -9,6 +8,7 @@
 
 	const winningScore = 20;
 
+	let initialState = $state(true);
 	export const hasWon = () => score >= winningScore;
 
 	let timer: number;
@@ -16,6 +16,7 @@
 	export const reset = () => {
 		score = 0;
 		time = 0;
+		initialState = false;
 		timer = setInterval(() => {
 			time += 1;
 		}, 1000);
@@ -36,29 +37,30 @@
 			score = 0;
 		}
 	};
-
 </script>
 
-<div class="container score-container">
-	<div class="columns">
-		<div class="score column col-sm-12 col-3">
-			{#if !hasWon()}
-				<p>SCORE <b>{score}/{winningScore}</b></p>
-			{/if}
-		</div>
+{#if !initialState}
+	<div class="container score-container">
+		<div class="columns">
+			<div class="score column col-sm-12 col-3">
+				{#if !hasWon()}
+					<p>SCORE <b>{score}/{winningScore}</b></p>
+				{/if}
+			</div>
 
-		<div class="column hide-sm col-6"></div>
+			<div class="column hide-sm col-6"></div>
 
-		<div class="time column col-sm-12 col-3">
-			<p>TIME <b>{secondsToTime(time)}</b></p>
+			<div class="time column col-sm-12 col-3">
+				<p>TIME <b>{secondsToTime(time)}</b></p>
+			</div>
 		</div>
 	</div>
-</div>
+{/if}
 
 {#if hasWon()}
 	<div class="win">Win!</div>
 
-	<HelpHint/>
+	<!-- <HelpHint/> -->
 {/if}
 
 <style>

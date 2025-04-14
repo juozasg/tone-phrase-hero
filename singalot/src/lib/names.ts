@@ -42,7 +42,7 @@ export const semitoneNamesFlats = [
 	'H'
 ] as const;
 
-export function getSemitone(key: string) {
+export function keyToSemitone(key: string) {
 	if(semitoneNamesSharps.includes(key as typeof semitoneNamesSharps[number])) {
 		return semitoneNamesSharps.indexOf(key as typeof semitoneNamesSharps[number]);
 	}
@@ -55,6 +55,46 @@ export function getSemitone(key: string) {
 	console.error(`Key ${key} not found`);
 	return 0;
 }
+
+
+export function germanNames(st: Semitone, mood: Mood) {
+	switch(st) {
+		case 1:
+			return mood === 'sad' ? 'Cis moll' : 'Des dur';
+		case 3:
+			return mood === 'sad' ? 'Dis moll' : 'Es dur';
+		case 6:
+			return mood === 'sad' ? 'Fis moll' : 'Ges dur';
+		case 8:
+			return mood === 'sad' ? 'Gis moll' : 'As dur';
+		case 10:
+			return mood === 'sad' ? 'Ais moll' : 'B dur';
+	}
+
+	return mood === 'sad' ? `${semitoneNamesSharps[st]} moll` : `${semitoneNamesSharps[st]} dur`;
+}
+
+
+export function germanEnharmonics(st: Semitone, mood: Mood) {
+	switch(st) {
+		case 1:
+			return mood === 'sad' ? 'Des moll' : 'Cis dur';
+		case 3:
+			return mood === 'sad' ? 'Es moll' : 'Dis dur';
+		case 6:
+			return mood === 'sad' ? 'Ges moll' : 'Fis dur';
+		case 8:
+			return mood === 'sad' ? 'As moll' : 'Gis dur';
+		case 10:
+			return mood === 'sad' ? 'B moll' : 'Ais dur';
+	}
+
+	console.error(`Key ${st} not found`);
+	return '';
+
+}
+
+
 
 // export const enharmonics = {
 // 	'C#': 'Db',

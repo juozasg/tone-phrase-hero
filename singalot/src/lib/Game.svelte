@@ -17,44 +17,59 @@
 	// svelte-ignore non_reactive_update
 	let score: Score;
 	let scoreFlash: ScoreFlash;
-	let question: Question;
+	let question: Question | undefined;
+
+	const semitone = $derived(question && question.getSemitone());
+	const mood = $derived(question && question.getMood());
 
 	function onQuestionReset() {
 		if (gameInitState) {
+			score!.reset();
 			gameInitState = false;
 		}
 	}
 
-	// function checkGuess(key: string, mood: 'happy' | 'sad') {
-	// 	if (key === randomSelectedKey && mood === randomMood) {
-	// 		// alert('Correct!');
-	// 		score.correct();
-	// 		scoreFlash.addMessage('correct');
+	function correct() {
+		score!.correct();
+		scoreFlash!.addMessage('correct');
 
-	// 		if (score.hasWon()) {
-	// 			randomSelectedKey = undefined;
-	// 			addScore(score.getTime());
-	// 		} else {
-	// 			randomizeDice.handleClick()
-	// 		}
-	// 	} else {
-	// 		// alert('Try again!');
-	// 		score.wrong();
-	// 		scoreFlash.addMessage('wrong');
-	// 		randomizeDice.handleClick()
-	// 	}
-	// }
+		if (score!.hasWon()) {
+			addScore(score!.getTime());
+			gameInitState = true;
+		} else {
+			question!.clickRandomizeDice();
+		}
+	}
+
+	function wrong() {
+		score!.wrong();
+		scoreFlash!.addMessage('wrong');
+		question!.clickRandomizeDice();
+	}
+
+	function onAnswered(correctAnswer: boolean) {
+		if (correctAnswer) {
+			if (questionState == '1') {
+				questionState = '2';
+			} else {
+				questionState = '1';
+				correct();
+			}
+		} else {
+			questionState = '1';
+			wrong();
+		}
+	}
+
 </script>
 
 <Question {onQuestionReset} bind:this={question} />
 
-{#if !gameInitState}
+{#if !gameInitState && semitone && mood}
 	{#if questionState == '1'}
-		<Answers answerOnClick={checkGuess} />
+		<Answers {onAnswered} {semitone} {mood} />
 	{:else if questionState == '2'}
-		<AnswersEnharmonic
-			key={question.pianoKey}
-			answerOnClick={checkGuess}
+		<AnswersEnharmonic {onAnswered} {semitone} {mood} />
 	{/if}
 {/if}
 
@@ -62,7 +77,7 @@
 	<HelpHint />
 {/if}
 
-<div class="score" style="opacity: {gameInitState ? 0 : 1}">
+<div class="score">
 	<Score bind:this={score} />
 </div>
 

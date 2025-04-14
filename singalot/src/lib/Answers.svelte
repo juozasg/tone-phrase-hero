@@ -1,33 +1,25 @@
 <script lang="ts">
-	import type { Semitone } from "./names";
+	import { germanNames, type Semitone } from "./names";
 
 	interface Props {
-		answerOnClick: (st: Semitone, mood: 'happy' | 'sad') => void;
+		semitone: Semitone;
+		mood: 'happy' | 'sad';
+		onAnswered: (correct: boolean) => void;
 	}
+	const { semitone, mood, onAnswered }: Props = $props();
 
-	const { answerOnClick }: Props = $props();
+	// $effect(() => {
+	// 	console.log('ANS semitone', semitone);
+	// 	console.log('ANS mood', mood);
+	// })
+
 </script>
 
 <div class="answers">
-	<!-- C# key -->
-	<button class="btn btn-primary" onclick={() => answerOnClick(1, 'sad')}>Cis moll</button>
-	<button class="btn btn-primary" onclick={() => answerOnClick(1, 'happy')}>Des dur</button>
-
-	<!-- D# key -->
-	<button class="btn btn-primary" onclick={() => answerOnClick(3, 'sad')}>Dis moll</button>
-	<button class="btn btn-primary" onclick={() => answerOnClick(3, 'happy')}>Es dur</button>
-
-	<!-- F# key -->
-	<button class="btn btn-primary" onclick={() => answerOnClick(6, 'sad')}>Fis moll</button>
-	<button class="btn btn-primary" onclick={() => answerOnClick(6, 'happy')}>Ges dur</button>
-
-	<!-- G# key -->
-	<button class="btn btn-primary" onclick={() => answerOnClick(8, 'sad')}>Gis moll</button>
-	<button class="btn btn-primary" onclick={() => answerOnClick(8, 'happy')}>As dur</button>
-
-	<!-- A# key -->
-	<button class="btn btn-primary" onclick={() => answerOnClick(10, 'sad')}>Ais moll</button>
-	<button class="btn btn-primary" onclick={() => answerOnClick(10, 'happy')}>B dur</button>
+	{#each [1, 3, 6, 8, 10] as st}
+		<button class="btn btn-primary" onclick={() => onAnswered(st == semitone && mood == 'sad')}>{germanNames(st as any, 'sad')}</button>
+		<button class="btn btn-primary" onclick={() => onAnswered(st == semitone && mood == 'happy')}>{germanNames(st as any, 'happy')}</button>
+	{/each}
 </div>
 
 <style>
