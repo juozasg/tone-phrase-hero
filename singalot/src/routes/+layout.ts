@@ -2,10 +2,14 @@ export const ssr = false;
 export const prerender = true;
 export const trailingSlash = 'always';
 
+import '$lib/audio.svelte';
+import { initAudio } from '$lib/audio.svelte';
+// import { SplendidGrandPiano, Reverb } from "smplr";
 
-// export function load() {
-// 	const scores = Array.from({ length: 22 }, () => Math.floor(Math.random() * 191) + 10);
-// 	return {
-// 		scores,
-// 	};
-// }
+export async function load() {
+	if (typeof AudioContext !== 'undefined') {
+		initAudio();
+
+	}
+}
+

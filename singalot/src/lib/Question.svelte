@@ -2,6 +2,7 @@
 	import MoodButton from './MoodButton.svelte';
 	import PianoOctave from './PianoOctave.svelte';
 	import RandomizeDice from './RandomizeDice.svelte';
+	import { playChord } from './audio.svelte';
 	import { blackSemitones, type Mood, type Semitone } from './names';
 
 	type Props = {
@@ -53,6 +54,7 @@
 		// console.log('generated question', semitone, mood);
 
 		onQuestionReset();
+		playChord(semitone, mood);
 	};
 
 	const selectedKeys = $derived.by(() => {
@@ -77,7 +79,7 @@
 			</div>
 
 			<div class="column col-sm-12 col-4">
-				<MoodButton mood={mood} hidden={gameInitState}/>
+				<MoodButton mood={mood} hidden={gameInitState} onClick={() => playChord(semitone!, mood)	}/>
 			</div>
 		</div>
 	</div>

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { getAudioContext, playChord } from "./audio.svelte";
+
 	type Props = {
 		size?: number;
 		callback: () => void;
@@ -9,6 +11,11 @@
 	let isSpinning = $state(false);
 
 	export function handleClick() {
+		// must be called in response to a user action
+		if(getAudioContext() && getAudioContext()!.state === 'suspended') {
+			getAudioContext()!.resume();
+		}
+
 		if (isSpinning) return;
 		isSpinning = true;
 		setTimeout(() => {

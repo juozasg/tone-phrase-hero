@@ -1357,6 +1357,11 @@ sirv@^3.0.0:
     mrmime "^2.0.0"
     totalist "^3.0.0"
 
+smplr@^0.16.1:
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/smplr/-/smplr-0.16.1.tgz#05e71a06cc04491028015378ab0dc3eacec9529f"
+  integrity sha512-qmCwaib5gj6qRUo4vwH0uERQI5FiwpnC2niahBwl95RmpK5iZQBB5ocIbXQaSfIbQb0KJ/EieS2jk+TYVsyqbg==
+
 source-map-js@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.2.1.tgz#1ce5650fddd87abc099eda37dcff024c2667ae46"

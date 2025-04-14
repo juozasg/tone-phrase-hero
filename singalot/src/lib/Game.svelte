@@ -9,6 +9,7 @@
 	import { addScore } from './scoreCookie.svelte';
 	import Question from './Question.svelte';
 	import AnswersEnharmonic from './AnswersEnharmonic.svelte';
+	import { playChord } from './audio.svelte';
 
 	let gameInitState = $state(true);
 
