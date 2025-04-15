@@ -1,6 +1,9 @@
 import { SplendidGrandPiano, Reverb } from "smplr";
 import type { Mood } from "./names";
 
+import { AudioContext as StandardizedAudioContext } from "standardized-audio-context";
+
+
 let audioContext: AudioContext | undefined;
 let piano: SplendidGrandPiano;
 
@@ -14,7 +17,8 @@ export function getAudioContext(): AudioContext | undefined {
 }
 
 export function initAudio() {
-	audioContext = new AudioContext();
+	// audioContext = new AudioContext();
+	audioContext = new StandardizedAudioContext() as unknown as AudioContext;
 
 	piano = new SplendidGrandPiano(audioContext, {
 		notesToLoad: {
@@ -22,12 +26,12 @@ export function initAudio() {
 			velocityRange: [80, 127],
 		},
 	});
+	piano.output.addEffect("reverb", new Reverb(audioContext!), 0.1);
 
 	console.log('loading piano');
 	piano.load.then(() => {
 		console.log('piano LOADED');
 		_isLoadingAudio = false;
-		piano.output.addEffect("reverb", new Reverb(audioContext!), 0.1);
 
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const w = window as any;
