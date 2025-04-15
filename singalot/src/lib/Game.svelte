@@ -1,7 +1,7 @@
 <script lang="ts">
 	import HelpHint from './HelpHint.svelte';
 
-	import ScoreFlash from '../ScoreFlash.svelte';
+	import ScoreFlash from './ScoreFlash.svelte';
 	import Answers from './Answers.svelte';
 
 	import Score from './Score.svelte';
@@ -16,9 +16,9 @@
 	let questionState: '1' | '2' = $state('1');
 
 	// svelte-ignore non_reactive_update
-	let score: Score;
-	let scoreFlash: ScoreFlash;
-	let question: Question | undefined;
+	let score: Score | undefined = $state();
+	let scoreFlash: ScoreFlash | undefined = $state();
+	let question: Question | undefined = $state();
 
 	const semitone = $derived(question && question.getSemitone());
 	const mood = $derived(question && question.getMood());
@@ -28,6 +28,7 @@
 			score!.reset();
 			gameInitState = false;
 		}
+		questionState = '1';
 	}
 
 	function correct() {
@@ -61,28 +62,51 @@
 			wrong();
 		}
 	}
-
 </script>
 
-<Question {onQuestionReset} {gameInitState} bind:this={question} />
+<div class="container game-container">
+	<div class="score">
+		<Score bind:this={score} />
+	</div>
+	<Question {onQuestionReset} {gameInitState} bind:this={question} />
 
-{#if !gameInitState && semitone && mood}
-	{#if questionState == '1'}
-		<Answers {onAnswered} {semitone} {mood} />
-	{:else if questionState == '2'}
-		<AnswersEnharmonic {onAnswered} {semitone} {mood} />
+	{#if !gameInitState && semitone && mood}
+		{#if questionState == '1'}
+			<Answers {onAnswered} {semitone} {mood} />
+		{:else if questionState == '2'}
+			<AnswersEnharmonic {onAnswered} {semitone} {mood} />
+		{/if}
 	{/if}
-{/if}
 
-{#if gameInitState}
-	<HelpHint />
-{/if}
+	{#if gameInitState}
+		<HelpHint />
+	{/if}
 
-<div class="score">
-	<Score bind:this={score} />
+	{#if score && score.hasWon()}
+		<div class="win">Win!</div>
+	{/if}
+
+	<ScoreFlash bind:this={scoreFlash} />
+
+	<Settings />
+	<HighScore />
 </div>
 
-<ScoreFlash bind:this={scoreFlash} />
+<style>
+	.game-container {
+		position: relative;
+		max-width: 720px;
+		/* border: 1px solid cadetblue; */
+	}
 
-<Settings />
-<HighScore />
+	.win {
+		color: green;
+		font-weight: bold;
+		font-size: 400%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-top: 15px;
+		margin-bottom: 30px;
+	}
+</style>

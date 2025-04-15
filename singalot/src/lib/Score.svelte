@@ -39,54 +39,42 @@
 	};
 </script>
 
-{#if !initialState}
-	<div class="container score-container">
-		<div class="columns">
-			<div class="score column col-sm-12 col-3">
-				{#if !hasWon()}
-					<p>SCORE <b>{score}/{winningScore}</b></p>
-				{/if}
-			</div>
-
-			<div class="column hide-sm col-6"></div>
-
-			<div class="time column col-sm-12 col-3">
-				<p>TIME <b>{secondsToTime(time)}</b></p>
-			</div>
+<div class="score-container">
+	{#if !initialState}
+		<div class="score">
+			{#if !hasWon()}
+				<p>SCORE <b>{score}/{winningScore}</b></p>
+			{/if}
 		</div>
-	</div>
-{/if}
 
-{#if hasWon()}
-	<div class="win">Win!</div>
+		<div class="time">
+			<p>TIME <b>{secondsToTime(time)}</b></p>
+		</div>
+	{/if}
+</div>
 
-	<!-- <HelpHint/> -->
-{/if}
 
 <style>
 	.score-container {
-		margin-top: 20px;
 		font-size: 1rem;
+		height: 22px;
+		/* background-color: blanchedalmond; */
+		width: 100%;
+		position: relative;
+		top: 3px;
 	}
 
-	.win {
-		color: green;
-		font-weight: bold;
-		font-size: 300%;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		margin-bottom: 30px;
+	.score {
+		position: absolute;
+		top: 0;
+		left: 0;
 	}
 
 	.time {
-		@media screen and (min-width: 601px) {
-			/* text-align: center; */
-			text-align: right;
-		}
+		position: absolute;
+		top: 0;
+		right: 0;
 	}
 
-	p {
-		margin-bottom: 6px;
-	}
+
 </style>

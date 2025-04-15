@@ -69,23 +69,20 @@
 </script>
 
 <div class="question">
-	<div class="container">
-		<div class="columns">
-			<div class="column randomize-column col-sm-12 col-4">
-				<RandomizeDice bind:this={randomizeDice} size={100} callback={generateQuestion} />
-			</div>
+	<div class="piano-container">
+		<PianoOctave selectedSemitones={selectedKeys} width={220} />
+	</div>
 
-			<div class="piano-column column col-sm-12 col-4">
-				<PianoOctave selectedSemitones={selectedKeys} width={220} />
-			</div>
-
-			<div class="column col-sm-12 col-4">
-				<MoodButton
-					{mood}
-					hidden={gameInitState || settings.hideEmoji}
-					onClick={() => playChord(semitone!, mood)}
-				/>
-			</div>
+	<div class="buttons-container">
+		<div>
+			<RandomizeDice bind:this={randomizeDice} size={100} callback={generateQuestion} />
+		</div>
+		<div>
+			<MoodButton
+				{mood}
+				hidden={gameInitState || settings.hideEmoji}
+				onClick={() => playChord(semitone!, mood)}
+			/>
 		</div>
 	</div>
 </div>
@@ -95,19 +92,18 @@
 		margin: 20px;
 	}
 
-	.column {
-		/* border: 1px solid red; */
+	.piano-container {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		margin-bottom: 20px;
 	}
 
-	.piano-column {
-		padding-top: 10px;
+	.buttons-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-top: 20px;
+		gap: 10px;
 	}
 
-	.randomize-column {
-		position: relative;
-	}
 </style>

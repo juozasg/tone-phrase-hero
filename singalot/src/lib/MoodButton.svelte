@@ -26,6 +26,9 @@
 <style>
 	.emoji-container {
 		user-select: none;
+		width: fit-content;
+		/* background-color: aqua; */
+		padding-bottom: 10%;
 	}
 
 	button {

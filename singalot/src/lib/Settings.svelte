@@ -36,10 +36,6 @@
 		color: #777;
 	}
 
-	.columns {
-		/* border: 1px solid salmon; */
-	}
-
 	.column {
 		display: block;
 		justify-content: left;

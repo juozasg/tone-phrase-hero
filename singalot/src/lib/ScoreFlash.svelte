@@ -13,7 +13,7 @@
 
 		setTimeout(() => {
 			messages = messages.filter((msg) => msg.id !== id);
-		}, 3000);
+		}, 7000);
 	};
 
 	export const clear = () => {
@@ -37,8 +37,13 @@
 	.score-flash {
 		position: absolute;
 		/* top: 150px; */
-		bottom: 40px;
-		left: 40px;
+		bottom: 120px;
+		left: 60px;
+		@media screen and (max-width: 600px) {
+			left: 20px;
+			bottom: 140px;
+		}
+
 		font-size: 1.5rem;
 		font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 		font-weight: 900;
@@ -57,13 +62,13 @@
 			opacity: 1;
 		}
 		100% {
-			transform: translateY(-300px);
+			transform: translateY(-340px);
 			opacity: 0;
 		}
 	}
 
 	.floating-element {
 		position: absolute;
-		animation: flyUp 1s ease-in-out forwards;
+		animation: flyUp 1.5s ease-out forwards;
 	}
 </style>
