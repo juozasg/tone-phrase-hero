@@ -36,28 +36,33 @@
 		color: #777;
 	}
 
+	.columns {
+		/* border: 1px solid salmon; */
+	}
+
 	.column {
 		display: block;
 		justify-content: left;
 		text-align: left;
+		/* border: 1px solid #ddd; */
+		padding: 0;
 	}
 
 	.options-column {
 		min-width: 90px;
 		max-width: 90px;
-		justify-content: right;
-
 		font-weight: 500;
+		padding-left: 8px;
 	}
 
 	.play-chord-column {
-		min-width: 115px;
-		max-width: 115px;
+		min-width: 106px;
+		max-width: 106px;
 	}
 
 	.hide-emoji-column {
-		min-width: 170px;
-		max-width: 170px;
+		min-width: 160px;
+		max-width: 160px;
 	}
 
 	input[type='checkbox'] {
