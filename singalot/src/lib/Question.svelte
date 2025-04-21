@@ -104,6 +104,7 @@
 		align-items: center;
 		margin-top: 20px;
 		gap: 10px;
+		/* border: 1px solid red; */
 	}
 
 </style>

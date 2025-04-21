@@ -33,7 +33,7 @@
 
 	button {
 		background: none;
-		border: none;
 		cursor: pointer;
+		border: none;
 	}
 </style>

@@ -142,6 +142,7 @@
 		padding: 5px;
 		border-radius: 6px;
 		background: none;
+		/* border: 1px solid green; */
 		@media (hover: hover) {
 			&:hover {
 				background-color: #f0f0f0;

@@ -10,6 +10,14 @@
 <div id="main">{@render children()}</div>
 
 <style>
+
+	:global(*) {
+		& > button {
+			padding: 0;
+			margin: 0;
+			/* border: none; */
+		}
+	}
 	#turn {
 		position: fixed;
 		top: 30vh;
