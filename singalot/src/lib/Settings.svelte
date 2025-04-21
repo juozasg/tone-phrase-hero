@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { isLoadingAudio } from './audio.svelte';
-	import { loadSettingsCookie, saveSettingsCookie, settings } from './settings.svelte';
+	import { loadSettingsCookie, saveSettingsCookie, settings } from './settingsCookie.svelte';
 
 
 	loadSettingsCookie();
