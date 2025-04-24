@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getAudioContext } from './audio.svelte';
+	import { initAudioInteraction } from './audio.svelte';
 
 	type Props = {
 		size?: number;
@@ -11,9 +11,7 @@
 
 	export function handleClick() {
 		// must be called in response to a user action
-		if (getAudioContext() && getAudioContext()!.state === 'suspended') {
-			getAudioContext()!.resume();
-		}
+		initAudioInteraction();
 
 		if (isSpinning) return;
 		isSpinning = true;
