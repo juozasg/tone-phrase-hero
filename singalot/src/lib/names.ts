@@ -60,15 +60,15 @@ export function keyToSemitone(key: string) {
 export function germanNames(st: Semitone, mood: Mood) {
 	switch(st) {
 		case 1:
-			return mood === 'sad' ? 'Cis moll' : 'Des dur';
+			return mood === 'sad' ? 'cis moll' : 'Des dur';
 		case 3:
-			return mood === 'sad' ? 'Dis moll' : 'Es dur';
+			return mood === 'sad' ? 'dis moll' : 'Es dur';
 		case 6:
-			return mood === 'sad' ? 'Fis moll' : 'Ges dur';
+			return mood === 'sad' ? 'fis moll' : 'Ges dur';
 		case 8:
-			return mood === 'sad' ? 'Gis moll' : 'As dur';
+			return mood === 'sad' ? 'gis moll' : 'As dur';
 		case 10:
-			return mood === 'sad' ? 'Ais moll' : 'B dur';
+			return mood === 'sad' ? 'ais moll' : 'B dur';
 	}
 
 	return mood === 'sad' ? `${semitoneNamesSharps[st]} moll` : `${semitoneNamesSharps[st]} dur`;
@@ -78,15 +78,15 @@ export function germanNames(st: Semitone, mood: Mood) {
 export function germanEnharmonics(st: Semitone, mood: Mood) {
 	switch(st) {
 		case 1:
-			return mood === 'sad' ? 'Des moll' : 'Cis dur';
+			return mood === 'sad' ? 'des moll' : 'Cis dur';
 		case 3:
-			return mood === 'sad' ? 'Es moll' : 'Dis dur';
+			return mood === 'sad' ? 'es moll' : 'Dis dur';
 		case 6:
-			return mood === 'sad' ? 'Ges moll' : 'Fis dur';
+			return mood === 'sad' ? 'ges moll' : 'Fis dur';
 		case 8:
-			return mood === 'sad' ? 'As moll' : 'Gis dur';
+			return mood === 'sad' ? 'as moll' : 'Gis dur';
 		case 10:
-			return mood === 'sad' ? 'B moll' : 'Ais dur';
+			return mood === 'sad' ? 'b moll' : 'Ais dur';
 	}
 
 	console.error(`Key ${st} not found`);
