@@ -18,7 +18,7 @@ let audioInitialized = $state(false);
 
 export const isLoadingAudio = () => !audioIsLoaded;
 
-const blobToBase64 = blob => {
+const blobToBase64 = (blob: Blob) => {
   const reader = new FileReader();
   reader.readAsDataURL(blob);
   return new Promise(resolve => {
@@ -40,8 +40,8 @@ async function loadChordData(st: number, mood: Mood) {
 	const audioBlob = await response.blob();
 	const audioUrl = await blobToBase64(audioBlob);
 
-	// console.log('audioFile', audioFile, 'audioUrl', audioUrl);
-	chordsAudioBase64Data.set(dataKey, audioUrl);
+	// console.log('audioFile loaded', audioFile, audioBlob.size);
+	chordsAudioBase64Data.set(dataKey, audioUrl as string);
 }
 
 export async function loadAudioData() {
@@ -64,7 +64,6 @@ export async function initAudioInteraction() {
 	console.log('playing init audio', audio);
 	await audio.play();
 
-	window['audio'] = audio;
 	console.log('init audio done playing');
 
 	audioInitialized = true;
@@ -82,8 +81,8 @@ export function playChord(rootSt: number, mood: Mood) {
 		return;
 	}
 
-	// const dataKey = `${rootSt}-${mood}`;
-	const dataKey = '1-happy';
+	const dataKey = `${rootSt}-${mood}`;
+	// const dataKey = '1-happy';
 	const base64Data = chordsAudioBase64Data.get(dataKey);
 	if (!base64Data) {
 		console.log(`Audio data not found for ${dataKey}`);

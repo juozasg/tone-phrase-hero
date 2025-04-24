@@ -108,5 +108,7 @@
 		align-items: center;
 		margin-top: 15px;
 		margin-bottom: 30px;
+		font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+
 	}
 </style>
