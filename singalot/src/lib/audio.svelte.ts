@@ -6,8 +6,7 @@ import { blackSemitones, type Mood } from "./names";
 if(typeof window !== 'undefined') {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const audioCtx = new AudioContext();
+	new AudioContext();
 }
 
 const chordsAudioBase64Data = new SvelteMap<string, string>();

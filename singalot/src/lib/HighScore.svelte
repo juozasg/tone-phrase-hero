@@ -11,8 +11,8 @@
 		<p>TIMES</p>
 	</b>
 
-	{#each sortedScores() as score}
-		<p class="score">{secondsToTime(score)}</p>
+	{#each sortedScores() as scoreEntry}
+		<p class="score">{scoreEntry[1]}: {secondsToTime(scoreEntry[0]) }</p>
 	{/each}
 </div>
 
